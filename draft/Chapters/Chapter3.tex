@@ -1,0 +1,76 @@
+
+\section{Inertia and Gravity coupling}
+\subsection{Equations and Approximations}
+In this part we will now study the Navier-Stokes in its integrity in order to find the wave propagation equation of Inertia-Gravity (IG) wave.
+\begin{align*}
+	\pd{\rho}{t} + \vec{\nabla} \cdot \left( \rho \vec{u} \right) & = 0  \\
+	\rho \pd{\vec{u}}{t} + \rho \left( \vec{u} \cdot \vec{\nabla} \right) \vec{u} & = - \vec{\nabla} p + \rho \vec{g} + \mu \Delta \vec{u} - 2 \rho \vec{\Omega} \wedge \vec{u}
+\end{align*}
+
+We will use the Boussinesq's approximation for both equations, meaning that we still have a divergence-free velocity, and that $\rho_b(z)$ and $\delta \rho$ are coupled through the vertical velocity, \textit{i.e.} $\partial_t \delta \rho = - u_z \partial_z \rho_b$. We still consider a uniformly density stratified fluid $\partial_z \rho_b = d\rho$ and we place ourselves in a low Ekman $Ek \ll 1$ and low Rossby number $Ro \ll 1$.
+
+The momentum equation is then written
+\begin{equation}
+	\rho_0 \partial_t \vec{u} = - \vec{\nabla} \tilde{P} + \delta \rho \vec{g} - 2 \rho_0 \vec{\Omega} \wedge \vec{u} \label{eq:IG Momentum}
+\end{equation}
+
+We can rewrite $\partial_t \delta \rho = - u_z \partial_z \rho_b$, which is called the buoyancy equation, while using $N$ the Brunt-Väisälä frequency to obtain $\partial_t \delta \rho = \frac{\rho_0}{g} N^2 u_z$. 
+
+This gives us the following set of 5 equations to work with
+\begin{align}
+	\partial_t \vec{u} +  f \hat{e}_z \wedge \vec{u} & = - \vec{\nabla} \phi + b \hat{e}_z && \partial_t b + N^2 u_z = 0 && \vec{\nabla} \cdot \vec{u} = 0 \label{eq:IG NS}
+\end{align}
+where $b = - \frac{\delta \rho}{\rho} g$ and $\phi = \frac{\tilde{P}}{\rho_0}$. 
+
+\subsection{Plane wave and dispersion relation}
+This is a five-equations system where we have 5 unknown variables, which means that we can solve this system for a set of plane waves 
+\begin{equation*}
+	(\tilde{\phi}, \tilde{b}, \tilde{u_x}, \tilde{u_y}, \tilde{u_z}) = (\hat{\phi}, \hat{b}, \hat{u_x}, \hat{u_y}, \hat{u_z}) \ex{-i \left( \vec{k} \cdot \vec{x} - \omega t \right)}
+\end{equation*}
+
+Again, this means with spectral derivatives $\partial_t = i \omega$ and $\partial_{x,y,z} = -i k_{x,y,z}$, we can rewrite the \cref{eq:IG NS}
+\begin{align*}
+	i \omega u_x - f u_y & = i k_x \phi \\
+	i \omega u_y + f u_x & = i k_y \phi \\
+	i \omega u_z & = i k_z \phi + b \\
+	i \omega b & = - N^2 u_z \\
+	k_x u_x + k_y u_y + k_z u_z & = 0 
+\end{align*}
+
+We can replace $b$ and $u_z$ in the third equation by using the fourth and the fifth equations
+\begin{equation*}
+	- \left( i \omega + \frac{N^2}{i \omega} \right) \frac{k_x u_x + k_y u_y}{k_z^2} = i \phi
+\end{equation*} 
+
+Then we inject that expression of $\phi$ in the first and the second equations
+\begin{align*}
+	i \omega u_x - f u_y & = - k_x \left( i \omega + \frac{N^2}{i \omega} \right) \frac{k_x u_x + k_y u_y}{k_z^2} \\
+	i \omega u_y + f u_x & = - k_y \left( i \omega + \frac{N^2}{i \omega} \right) \frac{k_x u_x + k_y u_y}{k_z^2}
+\end{align*}
+
+Which we can reorder to express $u_x$ in terms of $u_y$ in both 
+\begin{align*}
+	\left( - \omega^2 + \frac{k_x^2}{k_z^2} \left( N^2 -\omega^2 \right) \right) u_x & = \left( i \omega f - \frac{k_x k_y}{k_z^2} \left( N^2 -\omega^2 \right) \right) u_y \\
+	\left( - \omega^2 + \frac{k_y^2}{k_z^2} \left( N^2 -\omega^2 \right) \right) u_y & = \left( - i \omega f - \frac{k_x k_y}{k_z^2} \left( N^2 -\omega^2 \right) \right) u_x
+\end{align*}
+
+Which we can regroup in one equation as 
+\begin{align*}
+	\frac{-i \omega f - k_y k_x \left(N^2 - \omega^2 \right) / k_z^2}{- \omega^2 + k_y^2 \left(N^2 - \omega^2 \right)/k_z^2 } & = \frac{- \omega^2 + k_x^2 \left(N^2 - \omega^2 \right)/k_z^2 }{i \omega f - k_y k_x \left(N^2 - \omega^2 \right) / k_z^2} \\
+	\omega^2 f^2 & = \omega^4 - \omega^2 \frac{k_x^2 + k_y^2}{k_z^2}\left(N^2 - \omega^2 \right) \\
+	\omega^2 \left( \omega^2 - \frac{k_x^2 + k_y^2}{k_z^2}\left(N^2 - \omega^2 \right) - f^2 \right) & = 0
+\end{align*}
+
+We found the first trivial solution $\omega_0 = 0$ and two other $\omega_\pm$ which are given by the second term
+\begin{equation}
+	\omega_\pm^2 = \frac{f^2 k_z^2 + N^2 \left( k_x^2 + k_y^2 \right)}{k_x^2 + k_y^2 + k_z^2} = \frac{f^2 k_z^2 + N^2 k_h^2}{k^2}
+\end{equation}
+
+Where $k_h^2 = k_x^2 + k_y^2$ is the horizontal wave vector.
+
+
+We can easily see that $\omega_+$ is bounded between $\left[ f, N \right]$ and $\omega_-$ between $\left[ -N, -f \right]$ because we have $N \approx 10 \; f$.
+
+
+
+

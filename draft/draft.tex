@@ -1,0 +1,112 @@
+\documentclass[11pt]{report}
+\usepackage[a4paper,left=2cm,right=2cm,includehead,nomarginpar,textwidth=10cm,headheight=14pt]{geometry}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{xcolor}
+\usepackage{fancybox}
+\usepackage{fancyhdr}
+\usepackage{fourier-orns}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{caption}
+\usepackage[english]{babel}
+\usepackage[backend=bibtex,style=alphabetic]{biblatex}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{tikz-3dplot}
+\usepackage{cancel}
+\usepackage{hyperref}
+\usepackage{cleveref}
+
+\renewcommand{\headrule}{%
+\vspace{-8pt}\hrulefill
+\raisebox{-2.1pt}{\quad\decofourleft\decotwo\decofourright\quad}\hrulefill}
+\makeatletter
+
+% Définition de l'environnement théorème
+\newtheorem{theorem}{Théorème}[chapter] % Numérotation par section
+
+% Definition de la nouvelle commande pour les dérivées partielles
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\pdd}[2]{\frac{\partial^2 #1}{\partial #2^2}}
+
+\renewcommand{\exp}[1]{\exp{\left( #1 \right)}}
+\newcommand{\ex}[1]{\mathrm{e}^{#1}}
+
+% Configuration de Hyperlink
+\hypersetup{
+    colorlinks=true,      
+    linkcolor=blue,       
+    urlcolor=blue,        
+    citecolor=blue        
+}
+
+\setlength{\fboxrule}{1pt}
+
+
+% Ajouter le fichier de références
+\addbibresource{references.bib}
+
+\begin{document}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\nouppercase{\rightmark\hfill\leftmark}}
+\fancyhead[RO]{\nouppercase{\leftmark\hfill\rightmark}}
+\fancyfoot[C]{\thepage}
+\fancyfoot[LE,RO]{2024-2025}
+\fancyfoot[RE,LO]{Rémy Guillermin}
+
+\begin{titlepage}
+   \begin{center}
+       \vspace*{1cm}
+		
+		\Huge
+       \textbf{Simulations of stratified rotating turbulence and comparison with oceanic wave turbulence}
+            
+       \vspace{1.5cm}
+       
+       \LARGE
+       \textbf{Rémy Guillermin - supervised by Pierre Augier}
+       
+       \vfill
+       
+       \Large
+       \textbf{Research Training III}
+            
+       \vspace{0.8cm}
+     
+       \includegraphics[width=0.4\textwidth]{UGA-logo}
+		
+		\vspace{0.8cm}
+		
+       2024-2025
+            
+   \end{center}
+\end{titlepage}
+
+\chapter*{Abstract}
+
+\tableofcontents
+
+\newpage
+\chapter{Inertial and Gravity Waves}
+\input{Chapters/Chapter1.tex}
+
+\chapter{Mathematical Decomposition}
+\input{Chapters/Chapter2.tex}
+
+\chapter{Inertia-Gravity Waves}
+\input{Chapters/Chapter3.tex}
+
+
+
+\appendix
+\chapter{Vector identities}
+\input{Chapters/Appendix1.tex}
+
+\printbibliography
+
+\end{document}

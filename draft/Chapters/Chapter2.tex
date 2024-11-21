@@ -1,0 +1,92 @@
+In order to manipulate the equation more easily, we need to decompose our velocity field. In our case, we will focus on two main decomposition, the \textbf{poloidal-toroidal} decomposition and the \textbf{geostrophic-ageostrophic} decomposition
+
+\section{Poloidal-Toroidal decomposition}
+\subsection{Definitions}
+
+Assuming a solenoidal velocity field\footnote{a field $\vec{u}$ such as $\vec{\nabla} \cdot \vec{u} = 0$}, we can show that $\vec{u}$ can be decomposed in a unique way into a chosen axis\cite{schmitt_decomposition_1992}, in our case the vertical direction 
+\begin{align}
+	\vec{u} (x,y,z) & = \vec{\nabla} \times \left( \vec{\nabla} \times \left( \varphi(x,y,z) \hat{e}_z \right) \right) + \vec{\nabla} \times \left( \psi (x,y,z) \hat{e}_z \right) + u_m(x,y,z) \\
+	\vec{u} (x,y,z) & = \vec{u_p}(x,y,z) + \vec{u_t}(x,y,z) + \vec{u_m}(x,y,z)
+\end{align}
+
+$\vec{u_p}(x,y,z) = \vec{\nabla} \times \left( \vec{\nabla} \times \varphi \hat{e}_z \right)$ is called the poloidal part of $\vec{u}$, $\vec{u_t}(x,y,z) = \vec{\nabla} \times \psi \hat{e}_z$ is the toroidal part of $\vec{u}$ and $\vec{u_m}$ is the mean flow, which can be equal to zero in certain problems. It is useful to remark that $\vec{u_p}$ being a curl of a curl, it is by definition curl-free, \textit{i.e.} $\vec{\nabla} \times \vec{u_p} = 0$. This means that we can take the curl of any equation on the velocity and we will be left with only its toroidal part assuming no mean flow. This also means that the vorticity is only the curl of the toroidal velocity.
+
+\subsection{Energy}
+\subsubsection{Kinetic Energy}
+
+To compute the kinetic energy under the poloidal-toroidal decomposition, it is easier to demonstrate it in the spectral space where $\vec{\nabla} = i \vec{k}$. We can express the poloidal spectral potential as $\hat{u}_p = i \vec{k} \times i \vec{k} \times \hat{\varphi} \hat{e}_z$ and the toroidal potential as $\hat{u}_t = i \vec{k} \times \hat{\psi} \hat{e}_z$. We easily find that $\hat{u}_t$ is in the plane perpendicular to the wave vector $\vec{k}$ and that $\hat{u}_p$ is indeed perpendicular to this plane, which means that $\hat{u}_p$ and $\hat{u}_t$ are perpendicular, \textit{i.e.} $\hat{u}_p \cdot \hat{u}_t = 0$.
+
+The kinetic energy $E_k$\footnote{This is in fact the specific energy $E = E/\rho$} can be computed as 
+\begin{align*}
+	E_K & = \left\langle \frac{ u^2 }{2} \right\rangle \\
+	& = \frac{1}{2} \int_{\mathbb{R}^3} \vec{u}^2 d^3 \vec{r}  = \frac{1}{2} \int_{\mathbb{R}^3} \left[ \vec{u}_p + \vec{u}_t \right]^2 d^3 \vec{r}  \\
+	& = \frac{1}{2} \int_{\mathbb{R}^3} \left[ \vec{u}_p^2 + \vec{u}_t^2 + 2 \vec{u}_p \cdot \vec{u}_t \right] d^3 \vec{r}  \\
+	& = \frac{1}{2} \int_{\mathbb{R}^3} \vec{u}_p^2 d^3 \vec{r} + \frac{1}{2} \int_{\mathbb{R}^3} \vec{u}_t^2 d^3 \vec{r}  \\
+	& = \left\langle \frac{ u_p^2 }{2} \right\rangle + \left\langle \frac{ u_t^2 }{2} \right\rangle \\
+	E_K & = E_P + E_T
+\end{align*}
+
+\subsubsection{Potential Energy}
+
+In our case, the potential energy will be expressed with the vertical displacement of the fluid particles $\zeta = g \; \delta \rho / (N^2 \rho_0)$ as in \cite{augier_turbulence_2011} 
+\begin{equation*}
+	E_\phi = \left\langle \frac{N^2 \zeta^2}{2} \right\rangle \\
+\end{equation*}
+
+\subsubsection{Total Energy}
+The total energy is then the sum of each terms
+\begin{equation}
+	E_{tot} = E_P + E_T + E_\phi \label{eq:Energy}
+\end{equation}
+
+ 
+\subsection{Numerical expressions}
+We now want to be able to find both components of this decomposition from a numerical velocity field. The easiest way is to first compute the toroidal part by taking the curl of the velocity, then subtract it from the velocity to get the poloidal part.
+\begin{align*}
+	\vec{\omega} & = \vec{\nabla} \times \vec{u} = \vec{\nabla} \times \left( \vec{u_p} + \vec{u_t} \right)  \\
+	\vec{\omega} & = \vec{\nabla} \times \vec{u_t} \\
+	\vec{\nabla} \times \vec{\omega} & = \vec{\nabla} \left( \vec{\nabla} \cdot \vec{u_t} \right) - \nabla^2 \vec{u_t} \\
+	\vec{\nabla} \times \vec{\omega} & = -\nabla^2 \vec{u_t} 
+\end{align*}
+
+We have then found the expression of $\vec{u_t}$ in terms of $\vec{\omega}$ the vorticy, which is a simple Poisson equation. We can later compute the poloidal velocity $\vec{u_p} = \vec{u} - \vec{u_t}$.
+
+
+\section{Geostrophic-Ageostrophic Decomposition}
+\subsection{Definitions}
+
+In the context of rotating, stratified flows, the velocity field $\vec{u}$ can be decomposed into a geostrophic component and an ageostrophic component, based on the balance of the Coriolis force and pressure gradient forces. Assuming the flow evolves under the influence of a background rotation with angular velocity $\vec{\Omega} = \Omega \hat{e}_z$, we can express $\vec{u}$ as \cite{holton_introduction_2012}:
+\begin{align}
+	\vec{u}(x,y,z) &= \vec{u_g}(x,y,z) + \vec{u_a}(x,y,z),
+\end{align}
+where $\vec{u_g}$ is the geostrophic velocity and $\vec{u_a}$ is the ageostrophic velocity.
+
+\subsubsection{Geostrophic Velocity}
+
+The geostrophic velocity $\vec{u_g}$ is defined by the geostrophic balance, which states that the Coriolis force balances the pressure gradient:
+\begin{align}
+	2\Omega \hat{e}_z \times \vec{u_g} = -\frac{1}{\rho_0} \vec{\nabla} p,
+\end{align}
+where p is the pressure field and $\rho_0$ is a reference density. This relationship implies that $\vec{u_g}$ is non-divergent in the horizontal plane:
+
+\begin{equation*}
+	\vec{\nabla}_H \cdot \vec{u_g} = 0,
+\end{equation*}
+
+where $\vec{\nabla}_H = (\partial_x, \partial_y)$ is the horizontal gradient operator.
+
+\subsubsection{Ageostrophic Velocity}
+
+The ageostrophic velocity $\vec{u_a}$ captures the part of the flow that deviates from geostrophic balance. It represents unbalanced motions such as inertia-gravity waves, Ekman flows, or other ageostrophic circulations that are not directly in balance with the Coriolis force. The ageostrophic velocity can be obtained by subtracting the geostrophic component from the total velocity 
+\begin{equation*}
+	\vec{u_a} = \vec{u} - \vec{u_g}.
+\end{equation*}
+
+\subsubsection{Physical Interpretation}
+
+The geostrophic component $\vec{u_g}$ is typically associated with large-scale, balanced flows that are in approximate equilibrium with the Earth’s rotation. It is often dominant in the ocean’s interior or in the atmosphere outside of boundary layers.
+The ageostrophic component $\vec{u_a}$ is linked to unbalanced, transient, or smaller-scale processes, including wave motions or boundary layer effects.
+
+\section{Energy}
+
+

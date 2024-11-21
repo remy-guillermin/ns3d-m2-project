@@ -1,0 +1,190 @@
+\section{Introduction}
+\subsection{Navier-Stokes Equations}
+
+We will study the system defined by the Navier-Stokes equations \cref{eq:Incompressibility} and \cref{eq:Momentum}.  
+\begin{align}
+	\pd{\rho}{t} + \vec{\nabla} \cdot \left( \rho \vec{u} \right) & = 0 \label{eq:Incompressibility} \\
+	\pd{\vec{u}}{t} + \left( \vec{u} \cdot \vec{\nabla} \right) \vec{u} & = - \frac{1}{\rho} \vec{\nabla} p +  \vec{g} + \nu \Delta \vec{u} - 2 \vec{\Omega} \times \vec{u} \label{eq:Momentum}
+\end{align}
+Where $\rho$ is the fluid density, $\vec{u}$ is the velocity vector (of the fluid), $\vec{\Omega}$ is the rotation vector (which in our case will be aligned with $\hat{e}_z$), $p$ is the pressure, $\nu$ is the kinematic viscosity and $\vec{g} = -g \hat{e}_z$ is the gravitational acceleration.
+
+Let us quickly describe and name each term of \cref{eq:Momentum}.
+\begin{description}
+	\item[Local acceleration  $\mathbf{\pd{\vec{u}}{t}}$] is simply the local acceleration of a fluid particle.
+	\item[Advection term $\mathbf{\left( \vec{u} \cdot \vec{\nabla} \right) \vec{u}}$] is the non linear term representing the acceleration due to the fluid itself.
+	\item[Pressure gradient term $\mathbf{-\frac{1}{\rho} \vec{\nabla} p}$] represents the effects of the pressure on the fluid.
+	\item[Gravitational term $\mathbf{\vec{g}}$] is the force acting on the fluid due to gravity.
+	\item[Coriolis term $\mathbf{2 \vec{\Omega} \times \vec{v}}$] is an apparent force arising from the rotation of our reference frame.
+	\item[Viscous term $\mathbf{\nu \Delta \vec{u}}$] is the diffusion of the momentum due to to fluid viscosity. 
+\end{description}
+
+\subsection{Wave propagation conditions}
+
+A system needs a restoring force in order to allow the propagation of waves. In our case, it will be the gravitational acceleration of the system as well as the Coriolis acceleration. Both forces doesn't act on the same movements, gravity being vertical only, it will act as the restoring force of the vertical displacements	, also called the buoyancy force, whereas Coriolis will provide the restoring force of horizontal displacements. Wave frequencies will then depend on two parameters :
+\begin{description}
+	\item[The Coriolis parameter ($\mathbf{f}$)] which depends on the latitude and represent the influence of Earth rotation.
+	\item[The Brunt-Väisälä frequency ($\mathbf{N}$)] which characterize the buoyancy effect.
+\end{description}
+We will describe more precisely those parameters in \cref{sec:Inertial}, respectively \cref{sec:Gravity}. 
+
+\subsection{Wave interaction conditions}
+In order for wave to interact, there must be spatial and temporal resonance such as 
+\begin{align*}
+	\vec{k_0} + \vec{k_1} + \vec{k_2} = 0 && \omega_0 + \omega_1 + \omega_2 = 0
+\end{align*}
+
+Which yields conservation of the energy and the pseudo-momentum (see \cite{staquet_internal_2002}). An easy conclusion that we can find from those relations is that $\omega(\vec{k})$ must be a convex function\footnote{A function is convex if $f(tx_1 + (1-t)x_2) \leq t f(x_1) + (1-t) f(x_2)$, \textit{i.e.} any line between two point on the curve is above the function and doesn't cross it.}.
+
+\subsection{Dimensionless Numbers}
+
+We will use a set of dimensionless numbers to describe our problem. To find the expression of those numbers, we will rewrite our equations in characteristic scales of each variables: Characteristic velocity $U$, pressure $P$, length $L$, height $H$ and time $\tau$. The rotation $\omega$, the kinematic viscosity $\nu$ and the gravity $g$ don't need characterization. Any derivatives, either time or space derivatives, will simply be replaced by the inverse of the characteristic variables associated, \textit{i.e.} $\partial_t \propto 1/\tau$, $\partial_{x,y} \propto 1/L$ and $\partial_z \propto 1/H$ \footnote{In the whole paper, spatial derivatives $\pd{}{x,y,z}$ will be written $\partial_{x,y,z}$ and time derivatives $\pd{}{t}$ written as $\partial_t$}. 
+
+We can now rewrite Navier-Stokes equations, especially \cref{eq:Momentum} in the \textit{characteristic space}
+\begin{equation}
+	\frac{U}{\tau} + \frac{U^2}{L} = \frac{P}{\rho} + g + \frac{\nu U}{L^2} - 2 \Omega U
+	\label{eq:Dimensionless} 
+\end{equation}
+
+The expression of each dimensionless number will be the ratio of two terms of \cref{eq:Dimensionless}.
+
+\begin{description}
+	\item[Reynolds Number $\mathbf{Re = \frac{UL}{\nu}}$] is the ratio between the advection and viscous terms. It describes how turbulent a flow is.
+	\item[Rossby Number $\mathbf{Ro = \frac{U}{L\Omega}}$] is the ratio between the advection and Coriolis terms. It describes how the flow is affected by the rotation of the frame of reference.
+	\item[Ekman Number $\mathbf{Ek = \frac{\nu}{\Omega L^2}}$] is the ratio between the diffusion and Coriolis terms. It describes how well the disturbance due to Coriolis can propagate before being diffused.
+	\item[Froude Number $\mathbf{Fr^2 = \frac{U^2}{gH}}$] is the ratio between the advection and gravitational terms. It describes the comparison between flow speed and wave speed.
+	\item[Burger Number $\mathbf{Bu = \left(\frac{Ro}{Fr}\right)^2}$] describes the impacts of density stratification compared to those of the rotation of the reference frame.
+\end{description}
+
+
+\section{Inertial Waves}
+\label{sec:Inertial}
+
+\subsection{Equations and Approximations}
+For the inertial wave, we will focus on the Coriolis effect due to a rotation along the z-axis. For that, we will consider a system with no gravitational acceleration, \textit{i.e.} $g=0$, and a constant and uniform density throughout the flow. We will also consider $Ro \ll 1$ and $Ek \ll 1$ meaning that we can neglect the advection and the viscous terms in \cref{eq:Momentum}. This means that we are left with the following system
+\begin{align}
+	\vec{\nabla} \cdot \vec{u} = 0 && \partial_t \vec{u} + 2 \vec{\Omega} \times \vec{u} = - \vec{\nabla} \tilde{p} 
+	\label{eq:Inertial NS}
+\end{align}
+where $\tilde{p} = p/\rho$ is the dynamic pressure.
+
+\quad
+
+We can now apply the curl operator $\vec{\nabla} \times$ to \cref{eq:Inertial NS}.
+\begin{align*}
+	\vec{\nabla} \times \partial_t \vec{u} + \vec{\nabla} \times \left( 2 \vec{\Omega} \times \vec{u} \right) & = \vec{\nabla} \times \vec{\nabla} \tilde{p}	\\
+	\partial_t \left( \vec{\nabla} \times \vec{u} \right) - 2 \left( \vec{\Omega} \cdot \vec{\nabla} \right) \vec{u} & = 0 \\
+	\partial_t^2 \left( \vec{\nabla} \times \vec{u} \right) & = 2 \left( \vec{\Omega} \cdot \vec{\nabla} \right) \partial_t \vec{u} \qquad \text{we apply $\partial_t$} \\
+	\partial_t^2 \left( \vec{\nabla} \times \left( \vec{\nabla} \times \vec{u} \right) \right) & = 2 \left( \vec{\Omega} \cdot \vec{\nabla} \right) \partial_t \left( \vec{\nabla} \times \vec{u} \right) \quad \text{we apply $\vec{\nabla} \times$} \\
+	\partial_t^2 \Delta \vec{u} + 4  \left( \vec{\Omega} \cdot \vec{\nabla} \right)^2 \vec{u} & = \vec{0} \quad \text{we inject the second line}
+\end{align*}
+
+We have obtained the propagation equation of inertial waves. 
+\begin{equation}
+	\partial_t^2 \Delta \vec{u} + 4  \left( \vec{\Omega} \cdot \vec{\nabla} \right)^2 \vec{u} = \vec{0}
+	\label{eq:Inertial Propagation}
+\end{equation}
+\subsection{Plane wave and dispersion relation}
+\label{sec:Inertial.2}
+Now that we have found the propagation equation \cref{eq:Inertial Propagation} for the inertial waves, we need to find its dispersion relation and its eigenmodes. In order to do that, we will express $\vec{u}$ as $\vec{u} = \hat{u} \mathrm{e}^{i \left( \vec{k} \cdot \vec{r} - \omega t	 \right)}$. This expression transforms any temporal derivates as $\partial_t \vec{u} = -i \omega \vec{u}$ and any spatial derivatives as $\vec{\nabla} \cdot \vec{u} = i \vec{k} \cdot \vec{u}$. We can now inject this into the wave propagation equation.
+\begin{equation}
+	\omega^2 \lvert\vec{k}\rvert^2 = 4 \Omega^2 \left( \hat{e}_z \cdot \vec{k} \right)^2 
+\end{equation}
+
+which we can rewrite as 
+\begin{equation}
+	\omega = \pm 2 \Omega \cos{\theta}
+\end{equation}
+
+where $\theta$ is the angle between $\vec{k}$ and the z-axis. This means that $\omega$ can only takes value between $[-f, f]$, where $f = 2 \Omega$ is the Coriolis parameter.
+
+With the divergence-free condition on the flow we also have 
+\begin{equation*}
+	\vec{\nabla} \cdot \vec{u} = \vec{k} \cdot \vec{u} = 0
+\end{equation*}
+
+Which means that the inertial waves are indeed transverse waves.
+
+Lastly we need to find the group $\vec{c}_g$ and phase $\vec{c}_\phi$  velocity of the waves.
+\begin{align*}
+    \vec{c}_g & = \frac{d \omega}{d\vec{k}} && \vec{c}_\phi = \frac{\omega}{k} \hat{k} \\
+    \vec{c}_g & = \mp f \frac{k_z}{k^2} && \vec{c}_\phi = \pm f \frac{k_z}{k^2} \\
+    \vec{c}_g & = \pm f \frac{\vec{k} \times \left( \hat{z} \times \vec{k} \right)}{k^3}
+\end{align*}
+
+With the second expression for the group velocity, we find that the group velocity and the wave vector are perpendicular.
+
+\section{Gravity Waves}
+\label{sec:Gravity}
+\subsection{Equations and approximations}
+In this part we will focus on the effect of the gravity field through the buoyancy term. We will consider a newtonian fluid with no rotation vector $\vec{\Omega} = \vec{0}$. The equations to consider are
+\begin{align}
+	\pd{\rho}{t} + \vec{\nabla} \cdot \left( \rho \vec{u} \right) & = 0 \\
+	\pd{\vec{u}}{t} + \left( \vec{u} \cdot \vec{\nabla} \right) \vec{u} & = - \frac{1}{\rho} \vec{\nabla} p +  \vec{g} + \nu \Delta \vec{u}
+\end{align}
+
+\subsubsection{Boussinesq's approximation}
+We will now use the Boussinesq's approximation, which consists on ignoring the variation of density except in the buoyancy term\footnote{In reality this applies for every terms containing $\vec{g}$, but in our case, only the buoyancy is to consider}. We will express the density as $\rho = \rho_0 + \rho_b(z) + \delta \rho$ where $\rho_0$ is the mean fluid density, $\rho_b(z)$ is the vertical density profile, with an uniform stratification, and $\delta \rho$ are density fluctuations which are of first order. The Boussinesq's approximation implies that the fluid is divergence-free, \textit{i.e.} $\vec{\nabla} \cdot \vec{u} = 0$.
+
+We can now inject everything into the Laplacian derivative of $\rho$
+\begin{align}
+	\partial_t \rho + \left( \vec{u} \cdot \vec{\nabla} \right) \rho & = 0 \nonumber \\ 
+	\partial_t \delta \rho + u_z \partial_z \rho_b(z) & = 0 \label{eq:Gravity Incompressibility}
+\end{align}
+
+We will express the velocity vector as $\vec{u} = \vec{u}_b +  \vec{u}$ and consider no mean velocity, $\vec{u}_b = \vec{0}$, and inject both expression of $\vec{u}$ and $\rho$ in the Navier-Stokes equation, with negligible viscosity $\nu$ 
+\begin{align}
+	\left( \rho_0 + \rho_b(z) + \delta \rho \right) \pd{\vec{u}}{t} + \left( \left( \vec{u} \right) \cdot \vec{\nabla} \right) \left( \vec{u} \right) & = - \vec{\nabla} p + \left( \rho_0 + \rho_b(z) + \delta \rho \right) \vec{g} \nonumber \\
+	\text{We will remove every term with } & \text{any order above the first.} \nonumber \\
+	\rho_0 \pd{\vec{u}}{t} & = - \vec{\nabla} \tilde{P} + \delta \rho \vec{g} \label{eq:Gravity NS}
+\end{align}
+
+Where $\tilde{P}$ is the hydrostatic pressure\footnote{The hydrostatic pressure $\tilde{P} = P + \rho g z$ is the pressure as we know in the Bernouilli equation $P = P_{atm} + \rho g z + \frac{1}{2} \rho u^2$, with a velocity $u$ equal to 0.}
+
+We will take the divergence of \cref{eq:Gravity NS} to remove the velocity.
+\begin{align*}
+	\vec{\nabla} \cdot \left( \rho_0 \pd{\vec{u}}{t} \right) & = \vec{\nabla} \cdot \left( - \vec{\nabla} \tilde{P} - \delta \rho \vec{g} \right) \\
+	 \rho_0 \pd{\vec{\nabla} \cdot \left(\vec{u} \right)}{t} & = - \Delta \tilde{P} + \vec{\nabla} \cdot \left( \delta \rho g \hat{e}_z \right) \\
+	 \Delta \tilde{P} & = - \pd{\delta \rho}{z} g 
+\end{align*}
+
+We will project \cref{eq:Gravity NS} along the z-axis.
+\begin{align*}
+	\rho_0 \pd{u_z}{t} & = - \pd{\tilde{P}}{z} - \delta \rho g \\
+	\rho_0  \pd{\Delta u_z}{t} & = - \pd{}{z} \Delta \tilde{P} - \nabla^2 \delta \rho g \\
+	\rho_0  \pd{\Delta u_z}{t} & = g \pdd{\delta \rho}{z} - g \nabla^2 \delta \rho \\
+	\rho_0  \pd{\Delta u_z}{t} & = - g \nabla_h^2 \delta \rho 
+\end{align*}
+
+We will apply the time derivative and use \cref{eq:Gravity Incompressibility} to replace $\delta \rho$.
+\begin{align*}
+	\pdd{}{t} \Delta u_z & = - \Delta_h \frac{g}{\rho_0}\pd{\delta \rho}{t} \\
+	\pdd{}{t} \Delta u_z & = \Delta_h u_z \frac{g}{\rho_0} \pd{\rho_b}{z}
+\end{align*}
+
+We then define the Brunt-Väisälä frequency \cite{pedlosky_geophysical_1979} $N$ as $N^2 = - \frac{g}{\rho_0} \pd{\rho_b}{z}$, note that its derivative is equal to 0 because we have a uniform stratification $\pd{\rho_b}{z} = d\rho = cst$. We can now further develop our equation to obtain our wave propagation equation for gravity wave.
+\begin{align}
+	\pdd{}{t} \Delta u_z & = - N^2 \Delta_h u_z \nonumber \\
+	\pdd{}{t} \Delta u_z + N^2 \Delta_h u_z & = 0 \label{eq:Gravity Propagation}
+\end{align}
+
+\subsection{Plane wave and dispersion relation}
+With the same objectives as before, we will express $u_z$ as a plane wave : $u_z = \hat{u}_z \ex{i\left( \vec{k} \cdot \vec{r} - \omega t \right)}$ making the derivatives follow the same rule as in \cref{sec:Inertial.2}. We can now work on \cref{eq:Gravity Propagation} which becomes
+\begin{equation*}
+	\omega^2 k^2 + N^2 k_h^2 = 0
+\end{equation*}
+
+Which gives us the dispersion relation of gravity wave 
+\begin{equation}
+	\omega = \pm N \frac{k_h}{k} = \pm N \sin{\theta}
+\end{equation}
+
+With $\theta$ the same angle as in \cref{sec:Inertial.2}. $\omega$ is still bounded between $\left[ -N , N \right]$ with $N$ the Brunt-Väisälä frequency. 
+
+We can now compute both the group and phase velocity
+\begin{align*}
+	\vec{c}_g & = \frac{d \omega}{d\vec{k}} && \vec{c}_\phi = \frac{\omega}{k} \hat{k} \\
+    \vec{c}_g & = \mp N \frac{k_h}{k^2} && \vec{c}_\phi = \pm N \frac{k_z}{k^2} \\
+    \vec{c}_g & = \pm N \frac{\vec{k} \times \left( \hat{k_h} \times \vec{k} \right)}{k^3}
+\end{align*}
+
+Which again demonstrate that the group velocity and the wave vector are perpendicular.

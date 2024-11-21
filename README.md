@@ -17,3 +17,5 @@
 - https://foss.heptapod.net/fluiddyn/fluidsim/-/tree/branch/default/doc/examples/forcing_anisotropic_3d/toro2022
 
 - https://foss.heptapod.net/fluiddyn/fluidsim/-/blob/branch/default/doc/examples/simul_ns3d_forced_isotropic.py
+
+- The supercomputer: https://foss.heptapod.net/fluiddyn/fluidsim/-/tree/branch/default/doc/examples/clusters/gricad

@@ -15,3 +15,5 @@
 - MR Kolmo law ns3d: https://foss.heptapod.net/fluiddyn/fluidsim/-/merge_requests/298
 
 - https://foss.heptapod.net/fluiddyn/fluidsim/-/tree/branch/default/doc/examples/forcing_anisotropic_3d/toro2022
+
+- https://foss.heptapod.net/fluiddyn/fluidsim/-/blob/branch/default/doc/examples/simul_ns3d_forced_isotropic.py

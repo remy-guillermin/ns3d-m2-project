@@ -1,0 +1,85 @@
+\documentclass[11pt,twocolumn]{article}
+\usepackage[a4paper,left=2cm,right=2cm,includehead,nomarginpar,textwidth=10cm,headheight=14pt]{geometry}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{xcolor}
+\usepackage{fancybox}
+\usepackage{fancyhdr}
+\usepackage{fourier-orns}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{caption}
+\usepackage[english]{babel}
+\usepackage[backend=bibtex,style=alphabetic]{biblatex}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{tikz-3dplot}
+\usepackage{cancel}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{multicol}
+
+\hypersetup{
+    colorlinks=true,      
+    linkcolor=blue,       
+    urlcolor=blue,        
+    citecolor=blue        
+}
+
+\addbibresource{references.bib}
+
+\renewcommand{\headrule}{%
+\vspace{-8pt}\hrulefill
+\raisebox{-2.1pt}{\quad\decofourleft\decotwo\decofourright\quad}\hrulefill}
+
+\begin{document}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\nouppercase{\rightmark\hfill\leftmark}}
+\fancyhead[RO]{\nouppercase{\leftmark\hfill\rightmark}}
+\fancyfoot[C]{\thepage}
+\fancyfoot[LE,RO]{2024-2025}
+\fancyfoot[RE,LO]{Rémy Guillermin}
+
+\begin{titlepage}
+   \begin{center}
+       \vspace*{1cm}
+		
+		\Huge
+       \textbf{Simulations of stratified rotating turbulence and comparison with oceanic wave turbulence}
+            
+       \vspace{1.5cm}
+       
+       \LARGE
+       \textbf{Rémy Guillermin - supervised by Pierre Augier}
+       
+       \vfill
+       
+       \Large
+       \textbf{Research Training III}
+            
+       \vspace{0.8cm}
+     	
+       
+       \begin{center}
+    	\begin{minipage}{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.6\textwidth]{UGA-logo}
+    	\end{minipage}
+    	\begin{minipage}{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.8\textwidth]{LEGI-logo}
+    	\end{minipage}
+	    \end{center}
+		
+		\vspace{0.8cm}
+		
+       2024-2025
+            
+   \end{center}
+\end{titlepage}
+
+\end{document}

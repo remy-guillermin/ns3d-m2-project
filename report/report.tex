@@ -28,6 +28,12 @@
     citecolor=blue        
 }
 
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\pdd}[2]{\frac{\partial^2 #1}{\partial #2^2}}
+
+\renewcommand{\exp}[1]{\exp{\left( #1 \right)}}
+\newcommand{\ex}[1]{\mathrm{e}^{#1}}
+
 \addbibresource{references.bib}
 
 \renewcommand{\headrule}{%
@@ -81,5 +87,53 @@
             
    \end{center}
 \end{titlepage}
+
+\section*{Abstract}
+
+In fluid mechanics, turbulent flows occur when the Reynolds number $\mathrm{Re} = UL/\nu \gg 1$, where $U$ and $L$ are the characteristic velocity and length, respectively, and $\nu$ is the kinematic viscosity. This condition is satisfied in cases such as the flow of an inviscid fluid\footnote{a fluid with no viscosity}, e.g., superfluids; when the flow is extremely fast, e.g., jet engine exhaust; or when the flow occurs at large scales, e.g., climate phenomena. 
+
+When we look at large scale climate flows such as the ocean or the atmosphere, it is mandatory to consider two major changes in the basic Navier-Stokes equations: We need to account for the rotation of Earth as well as the stratification in density (ocean) or temperature(atmosphere). In this project, we have been focused on the effect of a density stratification of the flow, which will induce internal wave turbulence.
+
+\section{Theoretical background}
+
+The Navier-Stokes equations we will work with are 
+\begin{subequations}
+\begin{align}
+	\pd{\rho}{t} + \vec{\nabla} \left( \rho \vec{u} \right) &= 0 \\
+	\rho \left( \pd{\vec{u}}{t} + \left( \vec{u} \cdot \vec{\nabla} \right) \vec{u} \right) &= - \vec{\nabla} p - \rho g \hat{z} + \mu \Delta \vec{u}
+\end{align}
+\label{eq:NS}
+\end{subequations}
+
+It is useful to define the Froude number as $\mathrm{Fr}^2 = U^2/gH$ as the ratio of the advection term to the gravitational term. One must be familiar with the Boussinesq's approximation \cite{boussinesq_theorie_1897} in order to work with density stratified fluid. After applying this approximation on system \ref{eq:NS}, and after some rework, we find the wave propagation equation written as 
+\begin{equation}
+	\partial^2_t \vec{u} = \left( N^2 \nabla^2_h \nabla^{-2} \right) \vec{u} \label{eq:Wave Propagation}
+\end{equation}
+where $\nabla_h$ and $\nabla$ are the horizontal gradient operator and the spatial gradient operator, respectively, and $N^2 = -\frac{g}{\rho} \pd{\rho}{z}$ is the Brunt-Väisälä frequency \cite{pedlosky_geophysical_1979}. This equation allows us to find the dispersion relation of the gravity wave 
+\begin{equation}
+	\omega = \pm N \sin{\theta} \label{eq:Dispersion relation}
+\end{equation}
+where $\theta = k_z/\lvert \vec{k} \rvert$ is the angle between the wave-vector $\vec{k}$ and the z-axis. This means that $\omega$ is bounded inside the range $\left[ -N, +N \right]$. 
+
+We will consider an incompressible flow ($\vec{\nabla} \cdot \vec{u} = 0$), which means that we can use the poloidal-toroidal decomposition \cite{schmitt_decomposition_1992} in the vertical direction. This allows us to express the kinetic energy $E_k$\footnote{In this paper, the specific kinetic energy $E_k/\rho$ will be named kinetic energy} as the sum of the poloidal and toroidal contribution $E_K = E_p + E_t$ where
+\begin{equation*}
+	E_{p,t} = \frac{1}{2} \int_{\mathbb{R}^3} \left( \vec{u}_{p,t} \right)^2 d^3 \vec{r}
+\end{equation*}
+
+We can also express the potential energy as
+\begin{equation}
+	E_\phi = \left\langle \frac{g^2 {\delta \rho}^2}{2 N^2 \rho_0^{\;2}} \right\rangle \label{eq:Potential Energy}
+\end{equation}
+where $\rho_0$ is the mean density of the fluid and $\delta \rho$ are the density perturbation along the density stratification $\rho_0 + \rho_b$.
+
+
+
+
+
+
+
+\newpage
+
+\printbibliography
 
 \end{document}

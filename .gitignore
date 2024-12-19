@@ -1,6 +1,9 @@
 draft/**/*.pdf
 report/*.pdf
 
+report.pdf
+draft.pdf
+
 *-blx.bib
 *.aux
 *.bbl

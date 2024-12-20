@@ -4,6 +4,10 @@ report/*.pdf
 report.pdf
 draft.pdf
 
+*.pyc
+*/oar_launcher*
+
+
 *-blx.bib
 *.aux
 *.bbl

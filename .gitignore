@@ -6,7 +6,8 @@ draft.pdf
 
 *.pyc
 */oar_launcher*
-
+*stderr
+*stdout
 
 *-blx.bib
 *.aux

@@ -4,6 +4,8 @@ report/*.pdf
 report.pdf
 draft.pdf
 
+figures/*/*.png
+
 *.pyc
 *oar_launcher*
 *stderr

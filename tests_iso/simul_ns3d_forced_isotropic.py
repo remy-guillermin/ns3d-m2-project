@@ -11,11 +11,11 @@ parser = argparse.ArgumentParser()
 parser.add_argument(
     "--nx",
     type=int,
-    default=128,
+    default=64,
     help="Number of grid points in the x direction.",
 )
 parser.add_argument(
-    "--t_end", type=float, default=80.0, help="End time of the simulation"
+    "--t_end", type=float, default=20.0, help="End time of the simulation"
 )
 parser.add_argument(
     "--order",

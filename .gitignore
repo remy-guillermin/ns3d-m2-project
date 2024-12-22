@@ -5,9 +5,11 @@ report.pdf
 draft.pdf
 
 *.pyc
-*/oar_launcher*
+*oar_launcher*
 *stderr
 *stdout
+
+*launcher*.sh
 
 *-blx.bib
 *.aux

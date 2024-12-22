@@ -9,6 +9,5 @@ cluster.submit_command(
     nb_nodes=1,
     nb_mpi_processes="auto",
     walltime="00:30:00",
-    project="pr-strat-turb",
 )
 

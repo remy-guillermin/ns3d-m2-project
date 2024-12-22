@@ -73,11 +73,10 @@ params.forcing.key_forced = ["vt_fft", "vp_fft"]
 params.forcing.forcing_rate = 0.5 * epsilon
 
 params.output.periods_print.print_stdout = 1e-1
-
-params.output.periods_save.phys_fields = 0.5
-params.output.periods_save.spatial_means = 0.1
-params.output.periods_save.spectra = 0.1
-params.output.periods_save.spect_energy_budg = 0.1
+params.output.periods_save.phys_fields = 5e-1
+params.output.periods_save.spatial_means = 1e-1
+params.output.periods_save.spectra = 1e-1
+params.output.periods_save.spect_energy_budg = 1e-1
 
 params.output.spectra.kzkh_periodicity = 1
 sim = Simul(params)

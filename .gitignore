@@ -4,7 +4,9 @@ report/*.pdf
 report.pdf
 draft.pdf
 
-figures/*/*.png
+figures/**.png
+figures/**.mp4
+Sim_data
 
 *.pyc
 *oar_launcher*

@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from fluiddyn.clusters.oar import ClusterOAR
+from fluiddyn.clusters.slurm import ClusterSlurm
 
 
 path_miniforge = Path.home() / "miniforge3"
@@ -17,6 +18,17 @@ class Dahu(ClusterOAR):
         f"source {path_miniforge / 'etc/profile.d/conda.sh'}",
         "conda activate env-fluidsim-mpi",
     ]
+    
+class Zen(ClusterSlurm):
+    name_cluster = "zen"
+    nb_cores_per_node = 128
+    
+    commands_setting_env = [
+        "source /etc/profile",
+        f"source {path_miniforge / 'etc/profile.d/conda.sh'}",
+        "conda activate env-fluidsim-mpi",
+    ]
+
 
 
 class DahuDevel(Dahu):

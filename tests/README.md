@@ -1,2 +1,2 @@
 # Test scripts
-In this folder we regroup the basic scripts used to submit benchmark and jobs to the Dahu cluster using Miniforge
+In this folder we regroup the basic scripts used to submit benchmark and jobs to the Dahu cluster or the Zen cluster both using  Miniforge.

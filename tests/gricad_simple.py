@@ -26,7 +26,9 @@ class Zen(ClusterSlurm):
     commands_setting_env = [
         "source /etc/profile",
         f"source {path_miniforge / 'etc/profile.d/conda.sh'}",
-        "conda activate env-fluidsim-mpi",
+        "conda activate env-fluidsim-mpi", 
+        "module load gcc/13.2.0",
+	    "module load openmpi/4.1.6",
     ]
 
 

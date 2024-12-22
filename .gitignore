@@ -26,3 +26,6 @@ Sim_data
 *.out
 *.run.xml
 *.toc
+
+*/.DS_Store
+.DS_Store

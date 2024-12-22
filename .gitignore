@@ -10,6 +10,7 @@ draft.pdf
 *stdout
 
 *launcher*.sh
+*SLURM_JOB.md
 
 *-blx.bib
 *.aux

@@ -26,18 +26,15 @@ parser.add_argument(
 
 args = parser.parse_args()
 
-if "FLUIDSIM_TESTS_EXAMPLES" in os.environ:
-    t_end = 1.0
-    nx = 24
-else:
-    t_end = args.t_end
-    nx = args.nx
+t_end = args.t_end
+nx = args.nx
 
 params = Simul.create_default_params()
 
-params.output.sub_directory = "examples/test_iso3d"
+params.output.sub_directory = "test_iso3d"
 
-ny = nz = nx
+ny = nx
+nz = nx / 4
 Lx = 3
 params.oper.nx = nx
 params.oper.ny = ny
@@ -56,7 +53,18 @@ C = 1.0
 nu = (dx / C) ** ((3 * order_visco - 2) / 3) * epsilon ** (1 / 3)
 setattr(params, f"nu_{order_visco}", nu)
 
+kmax = pi / Lx * nx 
+C = 1.0
+eta = C / kmax
+
+reynolds = (pi * nx) ** (4/3)
+velo_max = reynolds * nu / Lx
+
 printby0(f"nu_{order_visco} = {nu:.3e}")
+printby0(f"kmax = {kmax:.3e}")
+printby0(f"eta = {eta:.3e}")
+printby0(f"reynolds = {reynolds:.3e}")
+printby0(f"maximum velocity = {velo_max:.3e}")
 
 params.init_fields.type = "noise"
 params.init_fields.noise.length = 1.0

@@ -12,7 +12,7 @@ simul_name = 'ns3d_64x64x64_V3x3x3_2024-12-22_15-48-25/'
 os.makedirs(f'iso_tests/{simul_name}', exist_ok=True)
 
 print("Fetching simulation data")
-sim_dir = '../Sim_data/examples/test_iso3d/' + simul_name
+sim_dir = '/Users/remyguillermin/Programmation/Etudes/M2/guillermin-m2/Sim_data/examples/test_iso3d/' + simul_name
 sim = load_sim_for_plot(sim_dir, hide_stdout=True)
 vx = sim.output.phys_fields.get_field_to_plot('vx', idx_time=0)[0]
 vy = sim.output.phys_fields.get_field_to_plot('vy', idx_time=0)[0]

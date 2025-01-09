@@ -4,7 +4,7 @@ We will use Fluidsim\cite{fluiddyn}, which is a HPC\footnote{High-Performance Co
 We will perform computations both on personal computer, for the small grid in order to test the scripts we write, and on a cluster host by GRICAD, which will allows us to simulate grid up to $1024^2 \times 256$. We need to setup the computing environment either with GUIX (which doesn't work in my case as of Friday 20 December) or conda to manage librairies. 
 
 \section{Simulation parameters}
-We aim to perform a DNS\footnote{Direct Numerical Simulation}, which requires the grid resolution to be smaller than the Kolmogorov length scale $\eta$. We will use the pseudospectral method, meaning we must select the Reynolds number $Re$ such that the condition $k_{\text{max}} \eta = 1$ is satisfied. Here, $k_{\text{max}} = \frac{2\pi}{L} \frac{n_x}{2}$, where $n_x$ is the number of grid points along one spatial dimension, and $L$ is the domain size.
+We aim to perform a DNS\footnote{Direct Numerical Simulation}, which requires the grid resolution to be smaller than the Kolmogorov length scale $\eta$. We will use the pseudospectral method, meaning we must select the Reynolds number $Re$ such that the condition $k_{\text{max}} \eta = 1$ is satisfied. Here, $k_{\text{max}} = \frac{2\pi}{L} \frac{n_x}{2}$ is the biggest wavenumber (associated with the smallest scale), where $n_x$ is the number of grid points along one spatial dimension, and $L$ is the domain size.
 
 Additionally, we know the relationship $\frac{L}{\eta} = Re^{3/4}$, which links the Kolmogorov length scale $\eta$ to the Reynolds number $Re$. Using this information, we can express the Reynolds number as a function of the grid parameter $n_x$:
 

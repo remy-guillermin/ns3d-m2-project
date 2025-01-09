@@ -8,12 +8,11 @@ from fluiddyn.clusters.slurm import ClusterSlurm
 path_miniforge = Path.home() / "miniforge3"
 
 class DahuGuix(ClusterOARGuix):
-
     name_cluster = "dahu"
     has_to_add_name_cluster = False
     frontends = ["dahu", "dahu-oar3"]
     use_oar_envsh = False
-    options_guix_shell = "-E ^OMPI -E ^OAR -E ^OMP -m manifest.scm"
+    options_guix_shell = "-E ^OMPI -E ^OAR -E ^OMP -m manifest.scm -f python-fluidsim.scm"
 
     commands_setting_env = [
         "source /applis/site/guix-start.sh",
@@ -31,20 +30,20 @@ class Dahu(ClusterOAR):
 
     commands_setting_env = [
         "source /etc/profile",
-        f"source {path_miniforge / 'etc/profile.d/conda.sh'}",
+        f"source {path_miniforge}/etc/profile.d/conda.sh",
         "conda activate env-fluidsim-mpi",
     ]
-    
+
 class Zen(ClusterSlurm):
     name_cluster = "zen"
     nb_cores_per_node = 128
-    
+
     commands_setting_env = [
         "source /etc/profile",
         f"source {path_miniforge / 'etc/profile.d/conda.sh'}",
         "conda activate env-fluidsim-mpi",
-	    "module load gcc/13.2.0",
-	    "module load openmpi/4.1.6",
+        "module load gcc/13.2.0",
+        "module load openmpi/4.1.6",
     ]
 
 

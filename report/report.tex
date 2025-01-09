@@ -1,139 +1,204 @@
-\documentclass[11pt,twocolumn]{article}
-\usepackage[a4paper,left=2cm,right=2cm,includehead,nomarginpar,textwidth=10cm,headheight=14pt]{geometry}
-\usepackage{graphicx}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{xcolor}
-\usepackage{fancybox}
-\usepackage{fancyhdr}
-\usepackage{fourier-orns}
-\usepackage{amsmath}
-\usepackage{amsfonts}
+\documentclass[final,5p,times,twocolumn,authoryear]{elsarticle}
+
 \usepackage{amssymb}
-\usepackage{caption}
-\usepackage[english]{babel}
-\usepackage[backend=bibtex,style=alphabetic]{biblatex}
-\usepackage{pgfplots}
-\usepackage{tikz}
-\usepackage{tikz-3dplot}
-\usepackage{cancel}
-\usepackage{hyperref}
-\usepackage{cleveref}
-\usepackage{multicol}
+\usepackage{lipsum}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage{lineno}
 
-\hypersetup{
-    colorlinks=true,      
-    linkcolor=blue,       
-    urlcolor=blue,        
-    citecolor=blue        
-}
-
+%% You might want to define your own abbreviated commands for common used terms, e.g.:
 \newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
 \newcommand{\pdd}[2]{\frac{\partial^2 #1}{\partial #2^2}}
 
-\renewcommand{\exp}[1]{\exp{\left( #1 \right)}}
-\newcommand{\ex}[1]{\mathrm{e}^{#1}}
-
-\addbibresource{references.bib}
-
-\renewcommand{\headrule}{%
-\vspace{-8pt}\hrulefill
-\raisebox{-2.1pt}{\quad\decofourleft\decotwo\decofourright\quad}\hrulefill}
+\journal{Graduate School@UGA}
 
 \begin{document}
 
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[LE]{\nouppercase{\rightmark\hfill\leftmark}}
-\fancyhead[RO]{\nouppercase{\leftmark\hfill\rightmark}}
-\fancyfoot[C]{\thepage}
-\fancyfoot[LE,RO]{2024-2025}
-\fancyfoot[RE,LO]{Rémy Guillermin}
+\begin{frontmatter}
 
-\begin{titlepage}
-   \begin{center}
-       \vspace*{1cm}
-		
-		\Huge
-       \textbf{Simulations of stratified rotating turbulence and comparison with oceanic wave turbulence}
-            
-       \vspace{1.5cm}
-       
-       \LARGE
-       \textbf{Rémy Guillermin - supervised by Pierre Augier}
-       
-       \vfill
-       
-       \Large
-       \textbf{Research Training III}
-            
-       \vspace{0.8cm}
-     	
-       
-       \begin{center}
-    	\begin{minipage}{0.49\textwidth}
-        \centering
-        \includegraphics[width=0.6\textwidth]{UGA-logo}
-    	\end{minipage}
-    	\begin{minipage}{0.49\textwidth}
-        \centering
-        \includegraphics[width=0.8\textwidth]{LEGI-logo}
-    	\end{minipage}
-	    \end{center}
-		
-		\vspace{0.8cm}
-		
-       2024-2025
-            
-   \end{center}
-\end{titlepage}
+%% Title, authors and addresses
 
-\section*{Abstract}
+\title{Simulations of stratified turbulence and comparison with oceanic wave turbulence}
 
-In fluid mechanics, turbulent flows occur when the Reynolds number $\mathrm{Re} = UL/\nu \gg 1$, where $U$ and $L$ are the characteristic velocity and length, respectively, and $\nu$ is the kinematic viscosity. This condition is satisfied in cases such as the flow of an inviscid fluid\footnote{a fluid with no viscosity}, e.g., superfluids; when the flow is extremely fast, e.g., jet engine exhaust; or when the flow occurs at large scales, e.g., climate phenomena. 
+\author[first]{Guillermin Remy}
 
-When we look at large scale climate flows such as the ocean or the atmosphere, it is mandatory to consider two major changes in the basic Navier-Stokes equations: We need to account for the rotation of Earth as well as the stratification in density (ocean) or temperature(atmosphere). In this project, we have been focused on the effect of a density stratification of the flow, which will induce internal wave turbulence.
+\begin{abstract}
+%% Text of abstract
+
+\end{abstract}
+
+%%Graphical abstract
+%\begin{graphicalabstract}
+%\includegraphics{grabs}
+%\end{graphicalabstract}
+
+%%Research highlights
+%\begin{highlights}
+%\item Research highlight 1
+%\item Research highlight 2
+%\end{highlights}
+
+\begin{keyword}
+%% keywords here, in the form: keyword \sep keyword, up to a maximum of 6 keywords
+Numerical Simulation \sep Fluids Dynamic \sep Turbulence
+
+%% PACS codes here, in the form: \PACS code \sep code
+
+%% MSC codes here, in the form: \MSC code \sep code
+%% or \MSC[2008] code \sep code (2000 is the default)
+
+\end{keyword}
+
+
+\end{frontmatter}
+
+%\tableofcontents
+
+%% \linenumbers
+
+%% main text
+
+\section{Introduction}
+\label{introduction}
+
+In fluid mechanics, turbulence arises when the Reynolds number, $\mathrm{Re} = UL/\nu \gg 1$, where $U$ and $L$ are the characteristic velocity and length scales of the flow, and $\nu$ is the kinematic viscosity. This condition is typically met in scenarios such as high-speed flows (e.g., jet engine exhaust), large-scale flows (e.g., atmospheric or ocean currents), or in fluids with negligible viscosity, like superfluids. Turbulence is characterised by chaotic, irregular motion that significantly affects the transport of momentum, heat, and mass.
+
+In the context of large-scale climate systems, such as the ocean and atmosphere, turbulence is even more complex due to the additional influence of Earth’s rotation and the stratification of the fluid—either by temperature (in the atmosphere) or density (in the ocean). These factors modify the basic dynamics described by the Navier-Stokes equations. Specifically, stratification leads to the formation of internal waves, which in turn interact with turbulence in intricate ways, driving the transport and mixing processes that are fundamental to climate dynamics.
+
+This project focuses on the effects of density stratification in large-scale flows, particularly how it induces internal wave turbulence. Understanding this phenomenon is crucial because internal waves play a key role in energy transfer within oceans and atmospheres, influencing ocean currents and atmospheric circulation patterns. By studying turbulent flows under stratified conditions, we aim to gain insights into the mechanisms governing large-scale climate dynamics and the energy cascades that drive these systems.
+
 
 \section{Theoretical background}
+\subsection{Navier-Stokes Equations}
 
-The Navier-Stokes equations we will work with are 
+The governing equations for fluid motion in this study are the Navier-Stokes equations, given by:
 \begin{subequations}
 \begin{align}
-	\pd{\rho}{t} + \vec{\nabla} \left( \rho \vec{u} \right) &= 0 \\
-	\rho \left( \pd{\vec{u}}{t} + \left( \vec{u} \cdot \vec{\nabla} \right) \vec{u} \right) &= - \vec{\nabla} p - \rho g \hat{z} + \mu \Delta \vec{u}
+\pd{\rho}{t} + \vec{\nabla} \left( \rho \vec{u} \right) &= 0 \\
+\rho \left( \pd{\vec{u}}{t} + \left( \vec{u} \cdot \vec{\nabla} \right) \vec{u} \right) &= - \vec{\nabla} p - \rho g \hat{z} + \mu \Delta \vec{u}
 \end{align}
 \label{eq:NS}
 \end{subequations}
+where $\rho$ is the fluid density, $\vec{u}$ is the velocity field, $p$ is the pressure, $\mu$ is the dynamic viscosity, and $g$ is the acceleration due to gravity. These equations describe the motion of a viscous fluid, accounting for both inertial and gravitational forces.
 
-It is useful to define the Froude number as $\mathrm{Fr}^2 = U^2/gH$ as the ratio of the advection term to the gravitational term. One must be familiar with the Boussinesq's approximation \cite{boussinesq_theorie_1897} in order to work with density stratified fluid. After applying this approximation on system \ref{eq:NS}, and after some rework, we find the wave propagation equation written as 
-\begin{equation}
-	\partial^2_t \vec{u} = \left( N^2 \nabla^2_h \nabla^{-2} \right) \vec{u} \label{eq:Wave Propagation}
-\end{equation}
-where $\nabla_h$ and $\nabla$ are the horizontal gradient operator and the spatial gradient operator, respectively, and $N^2 = -\frac{g}{\rho} \pd{\rho}{z}$ is the Brunt-Väisälä frequency \cite{pedlosky_geophysical_1979}. This equation allows us to find the dispersion relation of the gravity wave 
-\begin{equation}
-	\omega = \pm N \sin{\theta} \label{eq:Dispersion relation}
-\end{equation}
-where $\theta = k_z/\lvert \vec{k} \rvert$ is the angle between the wave-vector $\vec{k}$ and the z-axis. This means that $\omega$ is bounded inside the range $\left[ -N, +N \right]$. 
+\subsection{Dimensionless Numbers}
 
-We will consider an incompressible flow ($\vec{\nabla} \cdot \vec{u} = 0$), which means that we can use the poloidal-toroidal decomposition \cite{schmitt_decomposition_1992} in the vertical direction. This allows us to express the kinetic energy $E_k$\footnote{In this paper, the specific kinetic energy $E_k/\rho$ will be named kinetic energy} as the sum of the poloidal and toroidal contribution $E_K = E_p + E_t$ where
+In the study of fluid mechanics, the Froude number $\mathrm{Fr}^2 = U^2 / gH$ is a key dimensionless quantity that represents the ratio of inertial forces (advection) to gravitational forces. Here, $U$ is the characteristic velocity, $g$ is gravitational acceleration, and $H$ is the characteristic depth or length scale of the flow. The Froude number is useful in understanding the behavior of stratified fluids, where gravity plays a significant role in the dynamics.
+
+\subsection{Boussinesq Approximation and Wave Propagation}
+
+For density stratified fluids, the Boussinesq approximation [\cite{boussinesq_theorie_1897}] is commonly applied, which assumes that density variations are small and only affect the buoyancy force, while the density is constant elsewhere. After applying this approximation to the Navier-Stokes equations and simplifying, we derive the wave propagation equation:
+\begin{equation}
+\partial^2_t \vec{u} = \left( N^2 \nabla^2_h \nabla^{-2} \right) \vec{u} \label{eq:Wave Propagation}
+\end{equation}
+where $\nabla_h$ is the horizontal gradient operator, $\nabla$ is the spatial gradient operator, and $N^2 = -\frac{g}{\rho} \pd{\rho}{z}$ is the Brunt-Väisälä frequency [\cite{pedlosky_geophysical_1979}]. This equation describes the propagation of internal waves in a stratified fluid.
+
+\subsection{Dispersion Relation of Gravity Waves}
+
+The dispersion relation for gravity waves, derived from the wave propagation equation, is given by:
+\begin{equation}
+\omega = \pm N \sin{\theta} \label{eq:Dispersion relation}
+\end{equation}
+where $\omega$ is the frequency of the wave, and $\theta$ is the angle between the wave-vector $\vec{k}$ and the vertical $z$-axis. This relation shows that the frequency $\omega$ is bounded within the range $\left[ -N, +N \right]$, where $N$ is the Brunt-Väisälä frequency, which determines the stability of stratified fluid systems.
+
+\subsection{Poloidal-Toroidal Decomposition}
+
+In incompressible flows, where $\vec{\nabla} \cdot \vec{u} = 0$, the velocity field can be decomposed into poloidal and toroidal components. The poloidal-toroidal decomposition [\cite{schmitt_decomposition_1992}] helps in analyzing the structure of turbulent flows in the vertical direction. The total kinetic energy $E_k$ can be written as the sum of the poloidal and toroidal components:
 \begin{equation*}
-	E_{p,t} = \frac{1}{2} \int_{\mathbb{R}^3} \left( \vec{u}_{p,t} \right)^2 d^3 \vec{r}
+E_k = E_p + E_t
+\end{equation*}
+where the specific kinetic energy of each component is given by:
+\begin{equation*}
+E_{p,t} = \frac{1}{2} \int_{\mathbb{R}^3} \left( \vec{u}_{p,t} \right)^2 d^3 \vec{r}
+\end{equation*}
+This decomposition helps isolate the different types of motion in the flow and is particularly useful when studying turbulence in stratified fluids.
+
+\subsection{Potential Energy in Stratified Fluids}
+
+The potential energy in a stratified fluid is related to density perturbations within the background stratification. It can be expressed as:
+\begin{equation}
+E_\phi = \left\langle \frac{g^2 {\delta \rho}^2}{2 N^2 \rho_0^{;2}} \right\rangle \label{eq:Potential Energy}
+\end{equation}
+where $\rho_0$ is the mean density of the fluid, and $\delta \rho$ represents the density perturbation from the mean value. This expression describes the potential energy associated with internal waves and density fluctuations in the fluid.
+
+\section{Numerical Setup}
+
+\subsection{Computational Tools}
+
+For this study, we will use Fluidsim [\cite{fluiddyn}], a High-Performance Computing (HPC) code that utilises pseudo-spectral solvers. Fluidsim is well-suited for simulating fluid dynamics in stratified flows, providing efficient solutions for large-scale computations.
+
+
+
+\subsection{Computational Environment}
+We will perform simulations on three different platforms: a personal computer for small grid tests, a supercomputer named Zen hosted by Mesonet for larger-scale simulations, and the GRICAD cluster. Zen offers significant computational power for large simulations but does not provide the same parallelisation capabilities as the GRICAD cluster. Due to current issues with parallelisation on GRICAD, it is currently more efficient to alternate between Zen and GRICAD, depending on the specific parallelisation challenges encountered. Once the parallelisation issues on GRICAD are resolved, we plan to utilise its full parallel processing capabilities for even larger simulations.
+
+\section{Simulation Parameters}
+\subsection{Direct Numerical Simulation (DNS) Requirements}
+
+We aim to perform Direct Numerical Simulations (DNS), which requires a high grid resolution that is smaller than the Kolmogorov length scale $\eta$. This ensures that all turbulence scales are resolved, providing accurate results for the flow dynamics. In DNS, we seek to capture the full range of turbulent scales from the large eddies down to the smallest dissipative structures.
+
+\subsection{Reynolds Number and Kolmogorov Length Scale}
+
+To resolve the smallest turbulent scales, we must ensure that the grid resolution is fine enough by selecting an appropriate Reynolds number $Re$. For Direct Numerical Simulations (DNS), the condition $k_{\text{max}} \eta = 1$ must be satisfied, where $k_{\text{max}}$ is the maximum wavenumber and $\eta$ is the Kolmogorov length scale. The largest wavenumber is given by:
+
+\begin{equation*}
+k_{\text{max}} = \frac{2\pi}{L} \frac{n_x}{2}
 \end{equation*}
 
-We can also express the potential energy as
+where $n_x$ is the number of grid points along one spatial dimension and $L$ is the domain size. To satisfy the DNS condition, we require a relationship between $Re$ and $n_x$. The Kolmogorov length scale $\eta$ is related to the Reynolds number by the expression $\frac{L}{\eta} = Re^{3/4}$.
+
+By equating the two conditions, we can express the Reynolds number as a function of the grid resolution parameter $n_x$:
+
 \begin{equation}
-	E_\phi = \left\langle \frac{g^2 {\delta \rho}^2}{2 N^2 \rho_0^{\;2}} \right\rangle \label{eq:Potential Energy}
+Re = \left( \pi n_x \right)^{4/3}
 \end{equation}
-where $\rho_0$ is the mean density of the fluid and $\delta \rho$ are the density perturbation along the density stratification $\rho_0 + \rho_b$.
+
+This ensures that the grid resolution is fine enough to resolve the smallest turbulent scales, satisfying the DNS requirements.
+
+%\begin{figure}
+%	\centering 
+%	\includegraphics[width=0.4\textwidth, angle=-90]{Annals_of_Physics_cover_image.pdf}	
+%	\caption{Annals of Physics journal cover} 
+%	\label{fig_mom0}%
+%\end{figure}
+
+\section{Title 3}
+
+\subsection{Subsection title}
+
+\begin{table}[h]
+\begin{tabular}{l c c c} 
+ \hline
+ Source & RA (J2000) & DEC (J2000) & $V_{\rm sys}$ \\ 
+        & [h,m,s]    & [o,','']    & aaa         \\
+ \hline
+ NGC\,253 & 	00:47:33.120 & -25:17:17.59 & $235 \pm 1$ \\ 
+ M\,82 & 09:55:52.725, & +69:40:45.78 & $269 \pm 2$ 	 \\ 
+ \hline
+\end{tabular}
+\caption{Random table with galaxies coordinates and velocities, Number the tables consecutively in
+accordance with their appearance in the text and place any table notes below the table body. Please avoid using vertical rules and shading in table cells.
+}
+\label{Table1}
+\end{table}
 
 
+\section{Discussion}
+
+\section{Summary and conclusions}
+
+\appendix
+
+\section{Appendix title 1}
 
 
+\section{Appendix title 2}
 
+\bibliographystyle{elsarticle-harv} 
+\bibliography{references.bib}
 
-
-\newpage
-
-\printbibliography
 
 \end{document}
+
+\endinput

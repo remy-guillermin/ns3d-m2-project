@@ -20,7 +20,7 @@ parser.add_argument(
 parser.add_argument(
     "--order",
     type=int,
-    default=4,
+    default=2,
     help="Order of the viscosity (`2` corresponds to standard viscosity)",
 )
 
@@ -60,12 +60,6 @@ eta = C / kmax
 reynolds = (pi * nx) ** (4/3)
 velo_max = reynolds * nu / Lx
 
-printby0(f"nu_{order_visco} = {nu:.3e}")
-printby0(f"kmax = {kmax:.3e}")
-printby0(f"eta = {eta:.3e}")
-printby0(f"reynolds = {reynolds:.3e}")
-printby0(f"maximum velocity = {velo_max:.3e}")
-
 params.init_fields.type = "noise"
 params.init_fields.noise.length = 1.0
 params.init_fields.noise.velo_max = 0.1
@@ -80,15 +74,26 @@ params.forcing.key_forced = ["vt_fft", "vp_fft"]
 # forcing rate **per key forced**
 params.forcing.forcing_rate = 0.5 * epsilon
 
-params.output.periods_print.print_stdout = 1e-1
+params.output.periods_print.print_stdout = 5e-1
 params.output.periods_save.phys_fields = 5e-1
 params.output.periods_save.spatial_means = 1e-1
 params.output.periods_save.spectra = 1e-1
 params.output.periods_save.spect_energy_budg = 1e-1
+params.output.periods_save.kolmo_law = 0.1
 
 params.output.spectra.kzkh_periodicity = 1
 sim = Simul(params)
 sim.time_stepping.start()
+
+print(
+    f"""
+    nu_{order_visco} = {nu:.3e}
+    kmax = {kmax:.3e}
+    eta = {eta:.3e}
+    reynolds = {reynolds:.3e}
+    maximum velocity = {velo_max:.3e}
+    """
+)
 
 print(
     f"""

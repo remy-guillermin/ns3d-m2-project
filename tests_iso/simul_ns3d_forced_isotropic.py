@@ -90,3 +90,15 @@ params.output.spectra.kzkh_periodicity = 1
 sim = Simul(params)
 sim.time_stepping.start()
 
+print(
+    f"""
+To display a video of this simulation, you can do:
+fluidsim-ipy-load {sim.output.path_run}
+
+sim.output.phys_fields.animate(dt_frame_in_sec=1/30, dt_equations=0.15, QUIVER=False, interactive=True)
+
+# you can start by plotting and explaining these figures
+sim.output.spatial_means.plot()
+sim.output.spatial_means.plot_dt_E()
+"""
+)

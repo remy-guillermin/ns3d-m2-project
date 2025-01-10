@@ -8,6 +8,6 @@ cluster.submit_command(
     name_run="fluidsim-test-iso",
     nb_nodes=4,
     nb_cores_per_node=128,
-    walltime="00:30:00",
+    walltime="01:00:00",
 )
 

@@ -24,8 +24,11 @@ Sim_data
 *.fls
 *.log
 *.out
+*.err
 *.run.xml
 *.toc
+
+*.path
 
 */.DS_Store
 .DS_Store

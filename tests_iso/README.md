@@ -54,7 +54,7 @@ python Dahu_submit_iso3D.py
 ```
 
 > **Warning**  
-> Its important to note that we are not able to use more than one MPI process for the moment.
+> It is important to note that we are not able to use more than one MPI process for the moment.
 > 
 > The problem is that when more than one mpi process is specified, *i.e.* when `nb_mpi_processes="auto"`, the command 
 > ```python
@@ -72,3 +72,5 @@ python Zen_submit_iso3D.py
 ```
 
 On this cluster everything works just fine, i have been able to compute a 128x128x32 simulation of 60 seconds in less than 30 minutes. 
+
+

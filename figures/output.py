@@ -1,11 +1,13 @@
 import os
 from fluidsim import load_sim_for_plot
 
-simul_name = 'ns3d_64x64x64_V3x3x3_2024-12-22_15-48-25/'
-os.makedirs(f'iso_tests/{simul_name}', exist_ok=True)
+file_name = 'ns3d_128x128x32_V3x3x0.75_2025-01-10_18-15-53.path'
+
+with open(file_name, 'r') as file:
+    simul_path = file.read().strip()
 
 print("Fetching simulation data")
-sim_dir = '/Users/remyguillermin/Programmation/Etudes/M2/guillermin-m2/Sim_data/examples/test_iso3d/' + simul_name
+sim_dir = simul_path
 sim = load_sim_for_plot(sim_dir, hide_stdout=True)
 vx = sim.output.phys_fields.get_field_to_plot('vx', idx_time=0)[0]
 vy = sim.output.phys_fields.get_field_to_plot('vy', idx_time=0)[0]

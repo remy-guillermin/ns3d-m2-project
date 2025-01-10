@@ -74,16 +74,20 @@ params.forcing.key_forced = ["vt_fft", "vp_fft"]
 # forcing rate **per key forced**
 params.forcing.forcing_rate = 0.5 * epsilon
 
-params.output.periods_print.print_stdout = 5e-1
+params.output.periods_print.print_stdout = 1.0
 params.output.periods_save.phys_fields = 5e-1
 params.output.periods_save.spatial_means = 1e-1
 params.output.periods_save.spectra = 1e-1
 params.output.periods_save.spect_energy_budg = 1e-1
-params.output.periods_save.kolmo_law = 0.1
 
 params.output.spectra.kzkh_periodicity = 1
+
 sim = Simul(params)
 sim.time_stepping.start()
+
+file_name = os.path.basename(sim.output.path_run.rstrip('/')) + '.path'
+with open(file_name, 'w') as file:
+    file.write(sim.output.path_run)
 
 print(
     f"""

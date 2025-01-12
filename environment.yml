@@ -1,4 +1,4 @@
-name: env-fluidsim-mpi2
+name: env-fluidsim-mpi
 dependencies:
   - fluidsim
   - openmpi

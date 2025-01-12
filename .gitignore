@@ -6,7 +6,6 @@ draft.pdf
 
 figures/**.png
 figures/**.mp4
-Sim_data
 
 *.pyc
 *oar_launcher*
@@ -30,5 +29,4 @@ Sim_data
 
 *.path
 
-*/.DS_Store
-.DS_Store
+*.DS_Store

@@ -68,7 +68,7 @@ Because I have access to Mesonet server for my academic year, I tried to submit 
 
 Submit job with
 ```sh
-python Zen_submit_iso3D.py
+./Zen_submit_iso3D.py
 ```
 
 On this cluster everything works just fine, i have been able to compute a 128x128x32 simulation of 60 seconds in less than 30 minutes. 

@@ -77,20 +77,20 @@ Uh = (injection_rate * Lfh) ** (1 / 3)
 params._set_attrib("N", None)
 params.N = args.N
 Fh = Uh / (args.N * Lfh)
-printby0(f"Input horizontal Froude number: {Fh:.3g}")
+print(f"Input horizontal Froude number: {Fh:.3g}")
 
 Rb = 5.0
 nu = injection_rate / (Rb * args.N**2)
 params.nu_2 = nu
 
 eta = (nu**3 / injection_rate) ** 0.25
-k_max = params.oper.coef_dealiasing * delta_kz * nz / 2
-printby0(f"{eta * k_max = :.3e}")
+k_max = delta_kz * nz / 2
+print(f"{eta * k_max = :.3e}")
 
 coef_nu4 = 1.0
 
 if eta * k_max > 1:
-    printby0("Well resolved simulation, no need for nu_4")
+    print("Well resolved simulation, no need for nu_4")
     params.nu_4 = 0.0
 else:
     injection_rate_4 = injection_rate
@@ -99,7 +99,7 @@ else:
         coef_nu4 * injection_rate_4 ** (1 / 3) / k_max ** (10 / 3)
     )
     Rb_4 = injection_rate / (params.nu_4 * args.N**4)
-    printby0(
+    print(
         f"Resolution too coarse, we add order-4 hyper viscosity nu_4={params.nu_4:.3e}."
     )
 
@@ -122,8 +122,8 @@ delta_F = 0.1
 angle = asin(F)
 delta_angle = asin(delta_F)
 
-printby0(f"angle = {angle / pi * 180:.2f}°")
-printby0(f"delta angle = {delta_angle / pi * 180:.2f}°")
+print(f"angle = {angle / pi * 180:.2f}°")
+print(f"delta angle = {delta_angle / pi * 180:.2f}°")
 
 kfh = 2 * pi / Lfh
 kf = kfh / sin(angle)

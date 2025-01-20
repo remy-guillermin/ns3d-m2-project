@@ -140,21 +140,69 @@ We aim to perform Direct Numerical Simulations (DNS), which requires a high grid
 
 \subsection{Reynolds Number and Kolmogorov Length Scale}
 
-To resolve the smallest turbulent scales, we must ensure that the grid resolution is fine enough by selecting an appropriate Reynolds number $Re$. For Direct Numerical Simulations (DNS), the condition $k_{\text{max}} \eta = 1$ must be satisfied, where $k_{\text{max}}$ is the maximum wavenumber and $\eta$ is the Kolmogorov length scale. The largest wavenumber is given by:
+To resolve the smallest turbulent scales, we must ensure that the grid resolution is fine enough by selecting an appropriate Reynolds number $Re$. For Direct Numerical Simulations (DNS), the condition $k_{\text{max}} \eta > 1$ must be satisfied, where $k_{\text{max}}$ is the maximum wavenumber and $\eta$ is the Kolmogorov length scale. The largest wavenumber is given by:
 
 \begin{equation*}
-k_{\text{max}} = \frac{2\pi}{L} \frac{n_x}{2}
+k_{\text{max}} = \frac{2\pi}{L_z} \frac{n_z}{2}
 \end{equation*}
 
-where $n_x$ is the number of grid points along one spatial dimension and $L$ is the domain size. To satisfy the DNS condition, we require a relationship between $Re$ and $n_x$. The Kolmogorov length scale $\eta$ is related to the Reynolds number by the expression $\frac{L}{\eta} = Re^{3/4}$.
+where $n_z$ is the number of grid points along the vertical spatial dimension and $L$ is the domain size. To satisfy the DNS condition, we require a relationship between $Re$ and $n_z$. The Kolmogorov length scale $\eta$ is related to the Reynolds number by the expression $\frac{L}{\eta} = Re^{3/4}$.
 
 By equating the two conditions, we can express the Reynolds number as a function of the grid resolution parameter $n_x$:
 
 \begin{equation}
-Re = \left( \pi n_x \right)^{4/3}
+Re < \left( \pi n_z \right)^{4/3}
 \end{equation}
 
 This ensures that the grid resolution is fine enough to resolve the smallest turbulent scales, satisfying the DNS requirements.
+
+\subsection{Injection Rate and Richardson Number}
+
+In our simulations, we do not directly control the velocity field but can adjust the energy injection rate $\varepsilon_i$. This injection rate is related to the characteristic velocity $U_i$ at the injection scale $l_i$ through the following relationship:
+
+\begin{equation*}
+U_i = (\varepsilon_i l_i)^{1/3}
+\end{equation*}
+
+It is important to note that the energy injection rate $\varepsilon_i$ at the injection scale is equal to the energy dissipation rate $\varepsilon_d$ at the dissipation scale. Therefore, we denote the constant energy transfer rate across scales as $\varepsilon$.
+
+The Richardson number $Ri$ is a key parameter that characterizes the ratio of buoyancy forces to flow shear forces [\cite{cushman-roisin_introduction_2011}]. This dimensionless number is defined as:
+
+\begin{equation}
+Ri = \frac{N^2}{\left(d \bar{u} / dz \right)^2}
+\end{equation}
+
+where $N$ is the Brunt-Väisälä frequency, and $d\bar{u}/dz$ represents the vertical shear of the horizontal velocity. In our simulations, $Ri$ is a controllable parameter, enabling us to study the influence of stratification on the flow.
+
+Using the Richardson number and the energy transfer rate, we can express the kinematic viscosity $\nu$ as:
+
+\begin{equation*}
+\nu = \frac{\varepsilon}{Ri \cdot N^2}
+\end{equation*}
+
+The Reynolds number $Re$ can then be expressed in terms of $\varepsilon$, $L$, $Ri$, and $N$:
+
+\begin{equation}
+Re = \left(\varepsilon^{1/3} L^{4/3} \right) \frac{Ri \cdot N^2}{\varepsilon} = \varepsilon^{-2/3} L^{4/3} Ri \cdot N^2
+\end{equation}
+
+For our simulations, we set $L \sim 1.0 \; \mathrm{m}$, $\varepsilon = 1.0 \; \mathrm{m^2.s^{-3}}$, and $N \sim 10.0 \; \mathrm{s^{-1}}$. Under these conditions, we can derive a relationship between the Richardson number $Ri$ and the vertical grid resolution $n_z$:
+
+\begin{equation}
+Ri < \frac{\left(\pi n_z\right)^{4/3}}{100}
+\end{equation}
+
+This relationship provides a constraint on $Ri$ based on the chosen grid resolution and domain parameters, ensuring that the simulation operates within a physically consistent regime.
+
+Finally, for this master’s project, we will fix $Ri = 5.0$ to simplify the selection of simulation parameters. Using this value, we find the minimum number of grid points required in the vertical dimension $n_z$:
+
+\begin{equation*}
+n_z > \frac{\left(500\right)^{3/4}}{\pi} \approx 34
+\end{equation*}
+
+To ensure computational efficiency and ease of implementation, we round $n_z$ to the nearest power of 2, setting $n_z = 2^6 = 64$. This guarantees adequate vertical resolution for resolving the dynamics of the stratified turbulence.
+
+\section{Numerical simulation}
 
 %\begin{figure}
 %	\centering 

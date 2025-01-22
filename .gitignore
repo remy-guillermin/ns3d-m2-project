@@ -1,11 +1,15 @@
-draft/**/*.pdf
+draft/*.pdf
 report/*.pdf
+
+*/temp.ipynb
 
 report.pdf
 draft.pdf
 
-figures/**.png
-figures/**.mp4
+figures/*.png
+figures/*.mp4
+figures/*.npy
+figures/*.h5
 
 *.pyc
 *oar_launcher*
@@ -24,8 +28,9 @@ figures/**.mp4
 *.log
 *.out
 *.err
-*.run.xml
+*.xml
 *.toc
+*.spl
 
 *.path
 

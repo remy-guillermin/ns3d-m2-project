@@ -18,12 +18,9 @@ print(
 To display a video of this simulation, you can do:
 fluidsim-ipy-load {sim.output.path_run}
 
-sim.output.phys_fields.animate(dt_frame_in_sec=0.1, dt_equations=0.1, QUIVER=False, interactive=True)
-
-# you can start by plotting and explaining these figures
+sim.output.phys_fields.animate(dt_frame_in_sec=0.1, dt_equations=0.25, QUIVER=False, interactive=True, clim=(-1, 1))
+sim.output.spectra.plot1d(tmin=period, plot_forcing_region=True, plot_dissipative_scales=True)
 sim.output.spatial_means.plot()
-sim.output.spatial_means.plot_dt_energy()
-sim.output.spatial_means.plot_dt_enstrophy()
-sim.output.spect_energy_budg.plot(tmin=4)
+sim.output.phys_fields.plot(time=period)
 """
 )

@@ -202,46 +202,77 @@ n_z > \frac{\left(500\right)^{3/4}}{\pi} \approx 34
 
 To ensure computational efficiency and ease of implementation, we round $n_z$ to the nearest power of 2, setting $n_z = 2^6 = 64$. This guarantees adequate vertical resolution for resolving the dynamics of the stratified turbulence.
 
-\section{Numerical simulation}
+\section{Numerical Simulation}
 
-%\begin{figure}
-%	\centering 
-%	\includegraphics[width=0.4\textwidth, angle=-90]{Annals_of_Physics_cover_image.pdf}	
-%	\caption{Annals of Physics journal cover} 
-%	\label{fig_mom0}%
-%\end{figure}
+We conducted several simulations using a resolution of $(256, 256, 64)$ and domain dimensions of $(1, 1, 0.25)$. The simulations employed a Brunt-Väisälä frequency of $N = 10 ; \mathrm{s^{-1}}$ and a bulk Richardson number of $Ri = 5.0$.
 
-\section{Title 3}
+Each simulation required approximately 8 hours to compute 30 seconds of physical time. While this performance could be improved by implementing parallelization across multiple nodes in a cluster using MPI, configuring MPI for such simulations poses a significant challenge.
 
-\subsection{Subsection title}
+\subsection{Anisotropy in Velocity Field}
 
-\begin{table}[h]
-\begin{tabular}{l c c c} 
- \hline
- Source & RA (J2000) & DEC (J2000) & $V_{\rm sys}$ \\ 
-        & [h,m,s]    & [o,','']    & aaa         \\
- \hline
- NGC\,253 & 	00:47:33.120 & -25:17:17.59 & $235 \pm 1$ \\ 
- M\,82 & 09:55:52.725, & +69:40:45.78 & $269 \pm 2$ 	 \\ 
- \hline
-\end{tabular}
-\caption{Random table with galaxies coordinates and velocities, Number the tables consecutively in
-accordance with their appearance in the text and place any table notes below the table body. Please avoid using vertical rules and shading in table cells.
-}
-\label{Table1}
-\end{table}
+To analyze the evolution of anisotropy in the flow, we compared the probability density function (PDF) of velocity magnitudes at the beginning and the end of the simulation (see Figure \ref{fig:mag PDF}). Initially, the velocity field exhibits randomness due to energy injection at random scales. As the simulation progresses and stabilizes, the distribution of velocity magnitudes approaches a Gaussian profile, as indicated by the dashed line.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{fig/magnitude_pdf.png}
+\caption{Histogram and KDE of velocity magnitude at the start and end of the simulation.}
+\label{fig:mag PDF}
+\end{figure}
+
+We also examined the angular distribution of the velocity vector relative to the vertical direction (see Figure \ref{fig:angle PDF}). The results show a significant anisotropy developing over time. Initially, energy is injected with a predominantly horizontal forcing, but as the simulation progresses, the vertical direction becomes more dominant, indicating a shift in the orientation of the velocity field.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{fig/angle_pdf.png}
+\caption{Histogram and KDE of the velocity angle relative to the vertical direction at the start and end of the simulation.}
+\label{fig:angle PDF}
+\end{figure}
+
+To complement the velocity distribution analysis, we included kernel density estimation (KDE) alongside the histograms. KDE provides a smoothed, continuous representation of the data, offering a clearer view of the distribution compared to the discrete nature of histograms.
+
+\subsection{Energy Spectra}
+
+During the simulation, various spectral quantities are recorded, allowing us to analyze both 1D and 3D energy spectra. Figure \ref{fig:3d spectra time} shows the temporal evolution of the 3D energy spectra, highlighting the development of anisotropy. The energy in the vertical direction surpasses that in the two horizontal directions, with values approximately twice as high: around $0.0024$ compared to $0.001$. After about 5 seconds, the energy distribution stabilizes, indicating that the energy budget no longer evolves significantly over time.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{fig/3d_spectra_time.png}
+\caption{Temporal evolution of 3D energy spectra.}
+\label{fig:3d spectra time}
+\end{figure}
+
+Next, we examine the energy budget as a function of the wave-vector magnitude $k$ by plotting the 1D energy spectra, as shown in Figure \ref{fig:1d spectra}.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{fig/1d_spectra.png}
+\caption{One-dimensional energy spectra. The vertical line indicates the dissipation length scale.}
+\label{fig:1d spectra}
+\end{figure}
+
+The 1D spectra reveal a clear energy cascade from large to small scales, consistent with the turbulence theory of Kolmogorov [\cite{kolmogorov_local_1941}]. In particular, the energy spectrum follows the expected power-law behavior, $E_k \propto k^{-5/3}$, over the inertial range at the start of the cascade.
+
+\subsection{Richardson Number}
+
+Inspired by the work of \cite{brethouwer_scaling_2007}, we analyze the probability density function (PDF) of the Richardson number throughout the simulation, as shown in Figure \ref{fig:Ri PDF}.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{fig/richardson_pdf.png}
+\caption{Histogram and KDE of Richardson number.}
+\label{fig:Ri PDF}
+\end{figure}
+
+The resulting PDF closely resembles the findings of \cite{brethouwer_scaling_2007}, with a significant concentration of Richardson number values at the lower end of the distribution. This suggests that the flow dynamics share similar characteristics, reinforcing the consistency of the simulated results with prior studies.
 
 
 \section{Discussion}
 
+As part of a master’s project, this study has focused on simulating stratified turbulence under controlled conditions, providing a foundation for understanding key dynamics. While the results highlight the expected anisotropy and energy cascade in stratified flows, the scope was limited by computational resources and simulation duration. 
+
+Future work could extend this study by exploring a broader range of Richardson numbers, Brunt-Väisälä frequencies, or incorporating rotational effects to simulate more realistic geophysical scenarios. Improving parallelization on HPC clusters would also enable higher-resolution simulations, allowing for more detailed analysis of small-scale dynamics and wave-turbulence interactions.
+
 \section{Summary and conclusions}
-
-\appendix
-
-\section{Appendix title 1}
-
-
-\section{Appendix title 2}
 
 \bibliographystyle{elsarticle-harv} 
 \bibliography{references.bib}

@@ -8,5 +8,5 @@ In this folder we regroup all the scripts used to plot figures/read data from th
 
 You can submit code to Zen using 
 ```sh
-./sumbit_plot.py --job-name my_job --script my_script.py
+./submit_plot.py --job-name my_job --script my_script.py
 ```

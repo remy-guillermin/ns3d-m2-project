@@ -1,10 +1,12 @@
 draft/*.pdf
 report/*.pdf
+slides/*.pdf
 
 */temp.ipynb
 
 report.pdf
 draft.pdf
+slide.pdf
 
 figures/*.png
 figures/*.mp4

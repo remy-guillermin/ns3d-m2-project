@@ -1,12 +1,13 @@
 # Figures
-In this folder we regroup all the scripts used to plot figures/read data from the simulation file.
+In this folder we regroup all the scripts/notebook used to plot figures/read data from the simulation file.
 
-> **Warning**  
-> Don't forget to change the Simulation Path in `output.py` and `velocity_film.py` by copying `ns3d_***.path` into this folder.
 
-## For Zen (Mesonet)
+```
+To display a video of this simulation, you can do:
+fluidsim-ipy-load {sim.output.path_run}
 
-You can submit code to Zen using 
-```sh
-./submit_plot.py --job-name my_job --script my_script.py
+sim.output.phys_fields.animate(dt_frame_in_sec=0.1, dt_equations=0.25, QUIVER=False, interactive=True, clim=(-1, 1))
+sim.output.spectra.plot1d(tmin=period, plot_forcing_region=True, plot_dissipative_scales=True)
+sim.output.spatial_means.plot()
+sim.output.phys_fields.plot(time=period)
 ```

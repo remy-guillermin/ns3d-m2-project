@@ -2,7 +2,6 @@ import argparse
 import os
 
 from fluiddyn.util.mpi import printby0
-from math import pi
 
 from fluidsim.solvers.ns3d.solver import Simul
 
@@ -11,30 +10,33 @@ parser = argparse.ArgumentParser()
 parser.add_argument(
     "--nx",
     type=int,
-    default=64,
+    default=96,
     help="Number of grid points in the x direction.",
 )
 parser.add_argument(
-    "--t_end", type=float, default=20.0, help="End time of the simulation"
+    "--t_end", type=float, default=8.0, help="End time of the simulation"
 )
 parser.add_argument(
     "--order",
     type=int,
-    default=2,
+    default=4,
     help="Order of the viscosity (`2` corresponds to standard viscosity)",
 )
 
 args = parser.parse_args()
 
-t_end = args.t_end
-nx = args.nx
+if "FLUIDSIM_TESTS_EXAMPLES" in os.environ:
+    t_end = 1.0
+    nx = 24
+else:
+    t_end = args.t_end
+    nx = args.nx
 
 params = Simul.create_default_params()
 
-params.output.sub_directory = "test_iso3d"
+params.output.sub_directory = "examples"
 
-ny = nx
-nz = nx / 4
+ny = nz = nx
 Lx = 3
 params.oper.nx = nx
 params.oper.ny = ny
@@ -53,12 +55,7 @@ C = 1.0
 nu = (dx / C) ** ((3 * order_visco - 2) / 3) * epsilon ** (1 / 3)
 setattr(params, f"nu_{order_visco}", nu)
 
-kmax = pi / Lx * nx 
-C = 1.0
-eta = C / kmax
-
-reynolds = (pi * nx) ** (4/3)
-velo_max = reynolds * nu / Lx
+printby0(f"nu_{order_visco} = {nu:.3e}")
 
 params.init_fields.type = "noise"
 params.init_fields.noise.length = 1.0
@@ -74,38 +71,14 @@ params.forcing.key_forced = ["vt_fft", "vp_fft"]
 # forcing rate **per key forced**
 params.forcing.forcing_rate = 0.5 * epsilon
 
-params.output.periods_print.print_stdout = 1.0
-params.output.periods_save.phys_fields = 5e-1
-params.output.periods_save.spatial_means = 1e-1
-params.output.periods_save.spectra = 1e-1
-params.output.periods_save.spect_energy_budg = 1e-1
+params.output.periods_print.print_stdout = 1e-1
+
+params.output.periods_save.phys_fields = 0.5
+params.output.periods_save.spatial_means = 0.1
+params.output.periods_save.spectra = 0.1
+params.output.periods_save.spect_energy_budg = 0.1
 
 params.output.spectra.kzkh_periodicity = 1
 
 sim = Simul(params)
 sim.time_stepping.start()
-
-file_name = os.path.basename(sim.output.path_run.rstrip('/')) + '.path'
-with open(file_name, 'w') as file:
-    file.write(sim.output.path_run)
-
-print(
-    f"""
-    nu_{order_visco} = {nu:.3e}
-    kmax = {kmax:.3e}
-    eta = {eta:.3e}
-    reynolds = {reynolds:.3e}
-    maximum velocity = {velo_max:.3e}
-    """
-)
-
-print(
-    f"""
-fluidsim-ipy-load {sim.output.path_run}
-
-sim.output.phys_fields.animate(dt_frame_in_sec=1/30, dt_equations=0.15, QUIVER=False, interactive=True)
-
-sim.output.spatial_means.plot()
-sim.output.spatial_means.plot_dt_E()
-"""
-)

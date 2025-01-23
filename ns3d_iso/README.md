@@ -45,10 +45,8 @@ cluster.submit_command(
 )
 ```
 
-> [!NOTE]
+> **Update**  
 > Now (Thursday 23<sup>rd</sup> January), we can use [`job_test_iso.oar`](./job_test_iso.oar) to start simulation on Guix !
-
-
 
 ### Dahu Cluster (With Miniconda)
 We can submit job on Dahu without using Guix by using a conda env and the script [`Dahu_submit_iso3D.py`](./Dahu_submit_iso3D.py). 

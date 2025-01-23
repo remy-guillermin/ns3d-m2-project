@@ -68,6 +68,8 @@ In the context of large-scale climate systems, such as the ocean and atmosphere,
 
 This project focuses on the effects of density stratification in large-scale flows, particularly how it induces internal wave turbulence. Understanding this phenomenon is crucial because internal waves play a key role in energy transfer within oceans and atmospheres, influencing ocean currents and atmospheric circulation patterns. By studying turbulent flows under stratified conditions, we aim to gain insights into the mechanisms governing large-scale climate dynamics and the energy cascades that drive these systems.
 
+In a first part we will focus on the theory about such flows, we will study the wave in stratified and rotating flows but in our simulation we will only cover the stratified case.
+
 
 \section{Theoretical background}
 \subsection{Navier-Stokes Equations}
@@ -76,19 +78,19 @@ The governing equations for fluid motion in this study are the Navier-Stokes equ
 \begin{subequations}
 \begin{align}
 \pd{\rho}{t} + \vec{\nabla} \left( \rho \vec{u} \right) &= 0 \\
-\rho \left( \pd{\vec{u}}{t} + \left( \vec{u} \cdot \vec{\nabla} \right) \vec{u} \right) &= - \vec{\nabla} p - \rho g \hat{z} + \mu \Delta \vec{u}
+\rho \left( \pd{\vec{u}}{t} + \left( \vec{u} \cdot \vec{\nabla} \right) \vec{u} \right) &= - \vec{\nabla} p - \rho g \hat{z} + \mu \Delta \vec{u} - 2 \rho \vec{\Omega} \wedge \vec{u}
 \end{align}
 \label{eq:NS}
 \end{subequations}
-where $\rho$ is the fluid density, $\vec{u}$ is the velocity field, $p$ is the pressure, $\mu$ is the dynamic viscosity, and $g$ is the acceleration due to gravity. These equations describe the motion of a viscous fluid, accounting for both inertial and gravitational forces.
+where $\rho$ is the fluid density, $\vec{u}$ is the velocity field, $p$ is the pressure, $\mu$ is the dynamic viscosity, $\vec{\Omega}$ is the rotation of the frame of reference and $g$ is the acceleration due to gravity. These equations describe the motion of a viscous fluid, accounting for both inertial and gravitational forces.
 
 \subsection{Dimensionless Numbers}
 
 In the study of fluid mechanics, the Froude number $\mathrm{Fr}^2 = U^2 / gH$ is a key dimensionless quantity that represents the ratio of inertial forces (advection) to gravitational forces. Here, $U$ is the characteristic velocity, $g$ is gravitational acceleration, and $H$ is the characteristic depth or length scale of the flow. The Froude number is useful in understanding the behavior of stratified fluids, where gravity plays a significant role in the dynamics.
 
-\subsection{Boussinesq Approximation and Wave Propagation}
+\subsection{Boussinesq Approximation and Inertia-Wave Propagation}
 
-For density stratified fluids, the Boussinesq approximation [\cite{boussinesq_theorie_1897}] is commonly applied, which assumes that density variations are small and only affect the buoyancy force, while the density is constant elsewhere. After applying this approximation to the Navier-Stokes equations and simplifying, we derive the wave propagation equation:
+For density stratified fluids, the Boussinesq approximation [\cite{boussinesq_theorie_1897}] is commonly applied, which assumes that density variations are small and only affect the buoyancy force, while the density is constant elsewhere. After applying this approximation to the Navier-Stokes equations and simplifying, we derive the gravity-wave propagation equation:
 \begin{equation}
 \partial^2_t \vec{u} = \left( N^2 \nabla^2_h \nabla^{-2} \right) \vec{u} \label{eq:Wave Propagation}
 \end{equation}
@@ -96,42 +98,20 @@ where $\nabla_h$ is the horizontal gradient operator, $\nabla$ is the spatial gr
 
 \subsection{Dispersion Relation of Gravity Waves}
 
-The dispersion relation for gravity waves, derived from the wave propagation equation, is given by:
+The dispersion relation for inertia-gravity waves is given by:
 \begin{equation}
-\omega = \pm N \sin{\theta} \label{eq:Dispersion relation}
+\omega^2 = \frac{f^2 k_z^2 + N^2 k_h^2}{k^2} \label{eq:Dispersion relation}
 \end{equation}
-where $\omega$ is the frequency of the wave, and $\theta$ is the angle between the wave-vector $\vec{k}$ and the vertical $z$-axis. This relation shows that the frequency $\omega$ is bounded within the range $\left[ -N, +N \right]$, where $N$ is the Brunt-Väisälä frequency, which determines the stability of stratified fluid systems.
-
-\subsection{Poloidal-Toroidal Decomposition}
-
-In incompressible flows, where $\vec{\nabla} \cdot \vec{u} = 0$, the velocity field can be decomposed into poloidal and toroidal components. The poloidal-toroidal decomposition [\cite{schmitt_decomposition_1992}] helps in analyzing the structure of turbulent flows in the vertical direction. The total kinetic energy $E_k$ can be written as the sum of the poloidal and toroidal components:
-\begin{equation*}
-E_k = E_p + E_t
-\end{equation*}
-where the specific kinetic energy of each component is given by:
-\begin{equation*}
-E_{p,t} = \frac{1}{2} \int_{\mathbb{R}^3} \left( \vec{u}_{p,t} \right)^2 d^3 \vec{r}
-\end{equation*}
-This decomposition helps isolate the different types of motion in the flow and is particularly useful when studying turbulence in stratified fluids.
-
-\subsection{Potential Energy in Stratified Fluids}
-
-The potential energy in a stratified fluid is related to density perturbations within the background stratification. It can be expressed as:
-\begin{equation}
-E_\phi = \left\langle \frac{g^2 {\delta \rho}^2}{2 N^2 \rho_0^{;2}} \right\rangle \label{eq:Potential Energy}
-\end{equation}
-where $\rho_0$ is the mean density of the fluid, and $\delta \rho$ represents the density perturbation from the mean value. This expression describes the potential energy associated with internal waves and density fluctuations in the fluid.
+where $\omega$ is the frequency of the wave, $k_z$ is the vertical wave-vector and $k_h^2 = k_x^2 + k_y^2$ is the horizontal wave-vector. This relation shows that the frequency $\omega_+$ is bounded within the range $\left[ f, N \right]$ and $\omega_-$ between $\left[ N, -f \right]$, where $N$ is the Brunt-Väisälä frequency, which determines the stability of stratified fluid systems and $f$ is the Coriolis frequency, which quantifies the rotation of the frame of reference. In 
 
 \section{Numerical Setup}
 
 \subsection{Computational Tools}
 
-For this study, we will use Fluidsim [\cite{fluiddyn}], a High-Performance Computing (HPC) code that utilises pseudo-spectral solvers. Fluidsim is well-suited for simulating fluid dynamics in stratified flows, providing efficient solutions for large-scale computations.
-
-
+For this study, we will use \texttt{Fluidsim} [\cite{fluiddyn}], a High-Performance Computing (HPC) code that utilises pseudo-spectral solvers. \texttt{Fluidsim} is well-suited for simulating fluid dynamics in stratified flows, providing efficient solutions for large-scale computations.
 
 \subsection{Computational Environment}
-We will perform simulations on three different platforms: a personal computer for small grid tests, a supercomputer named Zen hosted by Mesonet for larger-scale simulations, and the GRICAD cluster. Zen offers significant computational power for large simulations but does not provide the same parallelisation capabilities as the GRICAD cluster. Due to current issues with parallelisation on GRICAD, it is currently more efficient to alternate between Zen and GRICAD, depending on the specific parallelisation challenges encountered. Once the parallelisation issues on GRICAD are resolved, we plan to utilise its full parallel processing capabilities for even larger simulations.
+We will perform simulations on three different platforms: a supercomputer named Zen hosted by Mesonet and the GRICAD cluster, both under \texttt{miniforge3} and \texttt{GUIX} . Zen offers ease of use and good computational power for simulations up to $(256, 256, 64)$ but does not provide the same parallelisation capabilities as the GRICAD cluster. The GRICAD cluster provides both mono-nodes and multi-nodes simulation  
 
 \section{Simulation Parameters}
 \subsection{Direct Numerical Simulation (DNS) Requirements}

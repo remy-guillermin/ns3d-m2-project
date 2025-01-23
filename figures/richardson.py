@@ -47,14 +47,15 @@ plt.figure(figsize=(8, 6))
 plt.hist(all_Ri_array, bins=50, density=True, alpha=0.3, color='blue', edgecolor='black', label='Histogram')
 
 # Compute and plot the KDE
-kde = gaussian_kde(all_Ri_array)
+kde = gaussian_kde(Ri)
 x_vals = np.linspace(np.min(all_Ri_array), np.max(all_Ri_array), 500)
 plt.plot(x_vals, kde(x_vals), color='red', linewidth=2, label='KDE')
 
-plt.xlabel('Richardson Number (Ri)', fontsize=14)
-plt.ylabel('Probability Density', fontsize=14)
-plt.title('Histogram and KDE of Richardson Number', fontsize=16)
-plt.legend(fontsize=12)
+plt.xlabel('Richardson Number (Ri)')
+plt.ylabel('Probability Density')
+plt.legend()
 plt.grid(alpha=0.3)
+
 plt.savefig('richardson_pdf.png', dpi=300)
 print("Plot saved as 'richardson_pdf.png'")
+plt.show()

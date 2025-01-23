@@ -28,7 +28,7 @@ Node:       dahu44 Executable: python
 ----------------------------------------------------------------------------
 ```
 
-when running the following script [`Guix_Dahu_submit_iso3D.py`](./Guix_Dahu_submit_iso3D.py)
+when running the following script [`Guix_submit.py`](./Guix_submit.py)
 ```python
 #!/usr/bin/env python3
 from gricad_simple import DahuGuix32_6130 as Cluster
@@ -44,6 +44,11 @@ cluster.submit_command(
     project="pr-strat-turb",
 )
 ```
+
+> [!NOTE]
+> Now (Thursday 23<sup>rd</sup> January), we can use [`job_test_iso.oar`](./job_test_iso.oar) to start simulation on Guix !
+
+
 
 ### Dahu Cluster (With Miniconda)
 We can submit job on Dahu without using Guix by using a conda env and the script [`Dahu_submit_iso3D.py`](./Dahu_submit_iso3D.py). 

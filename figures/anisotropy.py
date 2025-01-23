@@ -4,7 +4,6 @@ from scipy.stats import gaussian_kde
 import pandas as pd
 import numpy as np
 import os
-import glob
 import h5py
 
 file_name = 'sim.path'

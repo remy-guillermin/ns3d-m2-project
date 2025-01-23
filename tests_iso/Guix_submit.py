@@ -11,4 +11,3 @@ cluster.submit_command(
     walltime="00:30:00",
     project="pr-strat-turb",
 )
-

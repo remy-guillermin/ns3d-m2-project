@@ -1,0 +1,21 @@
+#!/bin/bash
+#OAR -n fluidsim-brunt
+#OAR --stdout fluidsim32.out
+#OAR --stderr fluidsim32.err
+#OAR -l {cpumodel='Gold 5218' and n_cores=32}/nodes=2/core=32,walltime=12:00:00
+#OAR --project pr-strat-turb
+
+# load guix session
+source /applis/site/guix-start.sh
+source /etc/profile
+source ~/miniforge3/etc/profile.d/conda.sh
+conda activate env-fluidsim-mpi
+
+export OMPI_MCA_plm_rsh_agent=/usr/bin/oarsh
+export OMPI_MCA_btl_openib_allow_ib=true
+
+exec ~/.config/guix/current/bin/guix shell -E ^OMPI -E ^OAR -E ^OMP \
+    -m manifest.scm -f python-fluidsim.scm \
+    -- mpirun -np 32 \
+    --machinefile $OAR_NODEFILE \
+    python simul_ns3d_forced_brunt.py --nx 256 --t_end 60

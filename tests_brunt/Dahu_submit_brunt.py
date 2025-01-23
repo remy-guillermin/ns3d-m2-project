@@ -4,11 +4,11 @@ from gricad_simple import Dahu32_6130 as Cluster
 cluster = Cluster()
 
 cluster.submit_command(
-    command="fluidsim-bench 1024 -d 3 -s ns3d -o .",
-    name_run="bench_fluidsim",
+    command="python simul_ns3d_forced_brunt.py --nx 256 --t_end 60",
+    name_run="fluidsim-test-brunt",
     nb_nodes=1,
-    nb_mpi_processes="auto",
-    walltime="00:30:00",
+    nb_mpi_processes=1,
+    walltime="01-00:00:00",
     project="pr-strat-turb",
 )
 

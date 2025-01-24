@@ -45,11 +45,8 @@ cluster.submit_command(
 )
 ```
 
-> **Update**  
-> Now (Thursday 23<sup>rd</sup> January), we can use [`job_test_iso.oar`](./job_test_iso.oar) to start simulation on Guix !
-
 ### Dahu Cluster (With Miniconda)
-We can submit job on Dahu without using Guix by using a conda env and the script [`Dahu_submit_iso3D.py`](./Dahu_submit_iso3D.py). 
+We can submit job on Dahu without using Guix by using a conda env and the script [`Dahu_submit.py`](./Dahu_submit.py). 
 
 Submit job with
 ```sh
@@ -66,8 +63,13 @@ python Dahu_submit_iso3D.py
 > is run multiple times instead of one time using parallelization. 
 
 
+> **Update$$
+> Now the mpi parallelization works on Dahu with Miniconda, I just needed to update my miniforge3 configuration
+> 
+
+
 ### Zen Cluster
-Because I have access to Mesonet server for my academic year, I tried to submit job on this cluster also, which works well after writing [`Zen_submit_iso3D.py`](./Zen_submit_iso3D.py).
+Because I have access to Mesonet server for my academic year, I tried to submit job on this cluster also, which works well after writing [`Zen_submit.py`](./Zen_submit.py).
 
 Submit job with
 ```sh

@@ -6,8 +6,8 @@
 \usepackage{amsmath}
 \usepackage[utf8]{inputenc}
 \usepackage{lineno}
+\usepackage{tabularx}
 
-%% You might want to define your own abbreviated commands for common used terms, e.g.:
 \newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
 \newcommand{\pdd}[2]{\frac{\partial^2 #1}{\partial #2^2}}
 
@@ -17,47 +17,33 @@
 
 \begin{frontmatter}
 
-%% Title, authors and addresses
-
-\title{Simulations of stratified turbulence and comparison with oceanic wave turbulence}
+\title{
+\begin{minipage}{0.3\textwidth}
+\includegraphics[width=0.9\textwidth]{LEGI-logo.png}
+\end{minipage}%
+\begin{minipage}{0.4\textwidth}
+\centering
+\textbf{Simulations of stratified turbulence} \\ \textbf{and comparison with oceanic wave turbulence}
+\end{minipage}%
+\begin{minipage}{0.3\textwidth}
+\flushright
+\includegraphics[width=0.9\textwidth]{UGA-logo.png}
+\end{minipage}
+}
 
 \author[first]{Guillermin Remy}
 
 \begin{abstract}
-%% Text of abstract
-
+This study investigates stratified turbulence and its interactions with internal waves using high-resolution Direct Numerical Simulations (DNS). Results reveal an energy cascade following the $k^{-5/3}$ power law, and Richardson number distributions consistent with prior studies.
 \end{abstract}
-
-%%Graphical abstract
-%\begin{graphicalabstract}
-%\includegraphics{grabs}
-%\end{graphicalabstract}
-
-%%Research highlights
-%\begin{highlights}
-%\item Research highlight 1
-%\item Research highlight 2
-%\end{highlights}
 
 \begin{keyword}
 %% keywords here, in the form: keyword \sep keyword, up to a maximum of 6 keywords
 Numerical Simulation \sep Fluids Dynamic \sep Turbulence
 
-%% PACS codes here, in the form: \PACS code \sep code
-
-%% MSC codes here, in the form: \MSC code \sep code
-%% or \MSC[2008] code \sep code (2000 is the default)
-
 \end{keyword}
 
-
 \end{frontmatter}
-
-%\tableofcontents
-
-%% \linenumbers
-
-%% main text
 
 \section{Introduction}
 \label{introduction}
@@ -70,6 +56,9 @@ This project focuses on the effects of density stratification in large-scale flo
 
 In a first part we will focus on the theory about such flows, we will study the wave in stratified and rotating flows but in our simulation we will only cover the stratified case.
 
+In a second part we will describe the issues faced, how they have been resolved. We will also talk about the simulation parameters.
+
+Finally in the last part we will discuss the results obtained for different simulation. 
 
 \section{Theoretical background}
 \subsection{Navier-Stokes Equations}
@@ -86,7 +75,24 @@ where $\rho$ is the fluid density, $\vec{u}$ is the velocity field, $p$ is the p
 
 \subsection{Dimensionless Numbers}
 
-In the study of fluid mechanics, the Froude number $\mathrm{Fr}^2 = U^2 / gH$ is a key dimensionless quantity that represents the ratio of inertial forces (advection) to gravitational forces. Here, $U$ is the characteristic velocity, $g$ is gravitational acceleration, and $H$ is the characteristic depth or length scale of the flow. The Froude number is useful in understanding the behavior of stratified fluids, where gravity plays a significant role in the dynamics.
+In the study of fluid mechanics, the Froude number $\mathrm{Fr}$ is a key dimensionless quantity that represents the ratio of inertial forces (advection) to gravitational forces.
+\begin{equation*}
+	\mathrm{Fr}^2 = U^2 / gH
+\end{equation*} 
+Here, $U$ is the characteristic velocity, $g$ is gravitational acceleration, and $H$ is the characteristic depth or length scale of the flow. The Froude number is useful in understanding the behaviour of stratified fluids, where gravity plays a significant role in the dynamics.
+
+The Richardson number $Ri$ is a key parameter that characterizes the ratio of buoyancy forces to flow shear forces [\cite{cushman-roisin_introduction_2011}]. This dimensionless number is defined as:
+\begin{equation}
+Ri = \frac{N^2}{\left(d \bar{u} / dz \right)^2}
+\end{equation}
+
+Where $N^2 = -\frac{g}{\rho} \pd{\rho}{z}$ is the Brunt-Väisälä frequency [\cite{pedlosky_geophysical_1979}] and $d \bar{u} / dz$ is the vertical velocity gradient.
+
+For rotating flow we can also define the Rossby number as the ratio of the inertial forces and the Coriolis forces
+\begin{equation*}
+	Ro = \frac{U}{fL}
+\end{equation*}
+Here, $f$ is the Coriolis parameter $f = 2\Omega$ in the case of a planar frame of reference, if we look at the case of the Earth, we need to take account for the latitude at which the experiment/simulation takes place.
 
 \subsection{Boussinesq Approximation and Inertia-Wave Propagation}
 
@@ -94,7 +100,7 @@ For density stratified fluids, the Boussinesq approximation [\cite{boussinesq_th
 \begin{equation}
 \partial^2_t \vec{u} = \left( N^2 \nabla^2_h \nabla^{-2} \right) \vec{u} \label{eq:Wave Propagation}
 \end{equation}
-where $\nabla_h$ is the horizontal gradient operator, $\nabla$ is the spatial gradient operator, and $N^2 = -\frac{g}{\rho} \pd{\rho}{z}$ is the Brunt-Väisälä frequency [\cite{pedlosky_geophysical_1979}]. This equation describes the propagation of internal waves in a stratified fluid.
+where $\nabla_h$ is the horizontal gradient operator, $\nabla$ is the spatial gradient operator, and $N$ is the Brunt-Väisälä frequency. This equation describes the propagation of internal waves in a stratified fluid.
 
 \subsection{Dispersion Relation of Gravity Waves}
 
@@ -102,155 +108,109 @@ The dispersion relation for inertia-gravity waves is given by:
 \begin{equation}
 \omega^2 = \frac{f^2 k_z^2 + N^2 k_h^2}{k^2} \label{eq:Dispersion relation}
 \end{equation}
-where $\omega$ is the frequency of the wave, $k_z$ is the vertical wave-vector and $k_h^2 = k_x^2 + k_y^2$ is the horizontal wave-vector. This relation shows that the frequency $\omega_+$ is bounded within the range $\left[ f, N \right]$ and $\omega_-$ between $\left[ N, -f \right]$, where $N$ is the Brunt-Väisälä frequency, which determines the stability of stratified fluid systems and $f$ is the Coriolis frequency, which quantifies the rotation of the frame of reference. In 
+where $\omega$ is the frequency of the wave, $k_z$ is the vertical wave-vector and $k_h^2 = k_x^2 + k_y^2$ is the horizontal wave-vector. This relation shows that the frequency $\omega_+$ is bounded within the range $\left[ f, N \right]$ and $\omega_-$ between $\left[ N, -f \right]$, where $N$ is the Brunt-Väisälä frequency, which determines the stability of stratified fluid systems and $f$ is the Coriolis frequency, which quantifies the rotation of the frame of reference.
 
 \section{Numerical Setup}
 
 \subsection{Computational Tools}
 
-For this study, we will use \texttt{Fluidsim} [\cite{fluiddyn}], a High-Performance Computing (HPC) code that utilises pseudo-spectral solvers. \texttt{Fluidsim} is well-suited for simulating fluid dynamics in stratified flows, providing efficient solutions for large-scale computations.
+This study leverages \texttt{Fluidsim} [\cite{fluiddyn}], a high-performance computing (HPC) code utilizing pseudo-spectral solvers. \texttt{Fluidsim} is particularly well-suited for simulating fluid dynamics in stratified flows, offering efficient computation for large-scale simulations.
 
 \subsection{Computational Environment}
-We will perform simulations on three different platforms: a supercomputer named Zen hosted by Mesonet and the GRICAD cluster, both under \texttt{miniforge3} and \texttt{GUIX} . Zen offers ease of use and good computational power for simulations up to $(256, 256, 64)$ but does not provide the same parallelisation capabilities as the GRICAD cluster. The GRICAD cluster provides both mono-nodes and multi-nodes simulation  
+
+The simulations are performed on three platforms: 
+
+\begin{itemize}
+    \item \textbf{Zen (Mesonet)}: A supercomputer offering ease of use and good computational power for medium-resolution simulations (up to $(256, 256, 64)$). However, it lacks efficient parallelization capabilities for multi-node simulations.
+    \item \textbf{GRICAD Cluster (Miniforge3)}: Supports single-node simulations. This will be the primary focus due to the current issues with multi-node setups.
+    \item \textbf{GRICAD Cluster (Guix)}: Provides potential for multi-node simulations, which is essential for higher-resolution simulations, but setup and execution currently face technical challenges.
+\end{itemize}
+
+\subsection{Challenges Encountered}
+
+Several technical issues have impacted the simulation workflow:
+
+\begin{itemize}
+    \item \textbf{GRICAD (Guix):} Initial difficulties arose during configuration, requiring IT support to resolve. While Guix is operational, multi-node simulations using MPI processes are not functioning, limiting the scalability needed for high-resolution simulations.
+    \item \textbf{Zen (Mesonet):} While job submission is straightforward, parallel simulations using MPI are not currently working. This restricts computational efficiency, as only sequential simulations are possible at present.
+\end{itemize}
+
+Addressing these challenges is essential for performing high-resolution DNS efficiently and should be a priority for future work.
 
 \section{Simulation Parameters}
+
 \subsection{Direct Numerical Simulation (DNS) Requirements}
 
-We aim to perform Direct Numerical Simulations (DNS), which requires a high grid resolution that is smaller than the Kolmogorov length scale $\eta$. This ensures that all turbulence scales are resolved, providing accurate results for the flow dynamics. In DNS, we seek to capture the full range of turbulent scales from the large eddies down to the smallest dissipative structures.
+Direct Numerical Simulations (DNS) demand a high grid resolution that resolves all turbulent scales down to the smallest dissipative structures, characterized by the Kolmogorov length scale $\eta$. This ensures accurate representation of the flow dynamics across the entire range of scales, from large eddies to fine-scale turbulence. 
 
 \subsection{Reynolds Number and Kolmogorov Length Scale}
 
-To resolve the smallest turbulent scales, we must ensure that the grid resolution is fine enough by selecting an appropriate Reynolds number $Re$. For Direct Numerical Simulations (DNS), the condition $k_{\text{max}} \eta > 1$ must be satisfied, where $k_{\text{max}}$ is the maximum wavenumber and $\eta$ is the Kolmogorov length scale. The largest wavenumber is given by:
-
+For different orders of viscosity $n$, the Reynolds number $Re_n$ is given by:
 \begin{equation*}
-k_{\text{max}} = \frac{2\pi}{L_z} \frac{n_z}{2}
+    Re_n = \frac{U L^{n-1}}{\nu_n}
+\end{equation*}
+where $\nu_n$ is the viscosity of order $n$. For $n=2$, $\nu_2$ corresponds to the standard viscosity term present in the Navier-Stokes equations. For $n>2$, higher-order viscosities are introduced, appearing as additional dissipation terms of the form $\nu_n \nabla^n$. These terms provide additional flexibility in controlling dissipation at small scales.
+
+Using a turbulent scaling of velocity $u(l) = (\varepsilon l)^{1/3}$, we can express the Reynolds number as:
+\begin{equation*}
+    Re_n(l) = \frac{\varepsilon^{1/3} l^{n - 2/3}}{\nu_n}.
 \end{equation*}
 
-where $n_z$ is the number of grid points along the vertical spatial dimension and $L$ is the domain size. To satisfy the DNS condition, we require a relationship between $Re$ and $n_z$. The Kolmogorov length scale $\eta$ is related to the Reynolds number by the expression $\frac{L}{\eta} = Re^{3/4}$.
-
-By equating the two conditions, we can express the Reynolds number as a function of the grid resolution parameter $n_x$:
-
-\begin{equation}
-Re < \left( \pi n_z \right)^{4/3}
-\end{equation}
-
-This ensures that the grid resolution is fine enough to resolve the smallest turbulent scales, satisfying the DNS requirements.
-
-\subsection{Injection Rate and Richardson Number}
-
-In our simulations, we do not directly control the velocity field but can adjust the energy injection rate $\varepsilon_i$. This injection rate is related to the characteristic velocity $U_i$ at the injection scale $l_i$ through the following relationship:
-
+The Kolmogorov length scale $\eta_n$ corresponds to the scale where $Re_n(l) = 1$, and is given by:
 \begin{equation*}
-U_i = (\varepsilon_i l_i)^{1/3}
+    \eta_n = \left(\frac{\nu_n}{\varepsilon^{1/3}}\right)^{1 / (n - 2/3)}.
 \end{equation*}
 
-It is important to note that the energy injection rate $\varepsilon_i$ at the injection scale is equal to the energy dissipation rate $\varepsilon_d$ at the dissipation scale. Therefore, we denote the constant energy transfer rate across scales as $\varepsilon$.
+\subsection{DNS Feasibility}
 
-The Richardson number $Ri$ is a key parameter that characterizes the ratio of buoyancy forces to flow shear forces [\cite{cushman-roisin_introduction_2011}]. This dimensionless number is defined as:
-
-\begin{equation}
-Ri = \frac{N^2}{\left(d \bar{u} / dz \right)^2}
-\end{equation}
-
-where $N$ is the Brunt-Väisälä frequency, and $d\bar{u}/dz$ represents the vertical shear of the horizontal velocity. In our simulations, $Ri$ is a controllable parameter, enabling us to study the influence of stratification on the flow.
-
-Using the Richardson number and the energy transfer rate, we can express the kinematic viscosity $\nu$ as:
-
+To perform DNS, we must ensure the condition $k_{\text{max}} \eta > 1$, where $k_{\text{max}}$ is the largest resolved wavenumber:
 \begin{equation*}
-\nu = \frac{\varepsilon}{Ri \cdot N^2}
+    k_{\text{max}} = \frac{2\pi}{L_x} \frac{n_x}{2}.
 \end{equation*}
 
-The Reynolds number $Re$ can then be expressed in terms of $\varepsilon$, $L$, $Ri$, and $N$:
+Assuming we want to have $\nu_2 = 10^{-6}$ and $\varepsilon = 1$, the Kolmogorov length scale $\eta$ is calculated as $\eta = 10^{-4.5}$. This leads to a required horizontal resolution of approximately $n_x = 30198$ grid points, which is computationally unfeasible for this project.
 
-\begin{equation}
-Re = \left(\varepsilon^{1/3} L^{4/3} \right) \frac{Ri \cdot N^2}{\varepsilon} = \varepsilon^{-2/3} L^{4/3} Ri \cdot N^2
-\end{equation}
-
-For our simulations, we set $L \sim 1.0 \; \mathrm{m}$, $\varepsilon = 1.0 \; \mathrm{m^2.s^{-3}}$, and $N \sim 10.0 \; \mathrm{s^{-1}}$. Under these conditions, we can derive a relationship between the Richardson number $Ri$ and the vertical grid resolution $n_z$:
-
-\begin{equation}
-Ri < \frac{\left(\pi n_z\right)^{4/3}}{100}
-\end{equation}
-
-This relationship provides a constraint on $Ri$ based on the chosen grid resolution and domain parameters, ensuring that the simulation operates within a physically consistent regime.
-
-Finally, for this master’s project, we will fix $Ri = 5.0$ to simplify the selection of simulation parameters. Using this value, we find the minimum number of grid points required in the vertical dimension $n_z$:
-
+We then need to find the viscosity required to have a DNS using 
 \begin{equation*}
-n_z > \frac{\left(500\right)^{3/4}}{\pi} \approx 34
+	\nu = C \left( \frac{L_x}{n_x} \right)^{4/3}  \varepsilon^{1/3}
 \end{equation*}
 
-To ensure computational efficiency and ease of implementation, we round $n_z$ to the nearest power of 2, setting $n_z = 2^6 = 64$. This guarantees adequate vertical resolution for resolving the dynamics of the stratified turbulence.
+Where $C \sim 1$. We then can express the maximum initial Reynolds number we can inject in order to have a DNS with a maximum initial velocity $u_i$ at a length of $1.0$
+\begin{equation*}
+	Re_i = \frac{u_i n_x^{4/3}}{3^{4/3} \varepsilon^{1/3}}
+\end{equation*}
 
-\section{Numerical Simulation}
 
-We conducted several simulations using a resolution of $(256, 256, 64)$ and domain dimensions of $(1, 1, 0.25)$. The simulations employed a Brunt-Väisälä frequency of $N = 10 ; \mathrm{s^{-1}}$ and a bulk Richardson number of $Ri = 5.0$.
 
-Each simulation required approximately 8 hours to compute 30 seconds of physical time. While this performance could be improved by implementing parallelization across multiple nodes in a cluster using MPI, configuring MPI for such simulations poses a significant challenge.
 
-\subsection{Anisotropy in Velocity Field}
+\section{Simulation results}
+\subsection{Isotropic test case}
+First we will perform some simulation up to $(256 \times 256 \times 64)$ for a setup without stratification 
+\subsection{Stratified dataset}
 
-To analyze the evolution of anisotropy in the flow, we compared the probability density function (PDF) of velocity magnitudes at the beginning and the end of the simulation (see Figure \ref{fig:mag PDF}). Initially, the velocity field exhibits randomness due to energy injection at random scales. As the simulation progresses and stabilizes, the distribution of velocity magnitudes approaches a Gaussian profile, as indicated by the dashed line.
+We will perform a set of simulation 
 
-\begin{figure}[h]
+\begin{table}[h]
 \centering
-\includegraphics[width=0.5\textwidth]{fig/magnitude_pdf.png}
-\caption{Histogram and KDE of velocity magnitude at the start and end of the simulation.}
-\label{fig:mag PDF}
-\end{figure}
-
-We also examined the angular distribution of the velocity vector relative to the vertical direction (see Figure \ref{fig:angle PDF}). The results show a significant anisotropy developing over time. Initially, energy is injected with a predominantly horizontal forcing, but as the simulation progresses, the vertical direction becomes more dominant, indicating a shift in the orientation of the velocity field.
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.5\textwidth]{fig/angle_pdf.png}
-\caption{Histogram and KDE of the velocity angle relative to the vertical direction at the start and end of the simulation.}
-\label{fig:angle PDF}
-\end{figure}
-
-To complement the velocity distribution analysis, we included kernel density estimation (KDE) alongside the histograms. KDE provides a smoothed, continuous representation of the data, offering a clearer view of the distribution compared to the discrete nature of histograms.
-
-\subsection{Energy Spectra}
-
-During the simulation, various spectral quantities are recorded, allowing us to analyze both 1D and 3D energy spectra. Figure \ref{fig:3d spectra time} shows the temporal evolution of the 3D energy spectra, highlighting the development of anisotropy. The energy in the vertical direction surpasses that in the two horizontal directions, with values approximately twice as high: around $0.0024$ compared to $0.001$. After about 5 seconds, the energy distribution stabilizes, indicating that the energy budget no longer evolves significantly over time.
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.5\textwidth]{fig/3d_spectra_time.png}
-\caption{Temporal evolution of 3D energy spectra.}
-\label{fig:3d spectra time}
-\end{figure}
-
-Next, we examine the energy budget as a function of the wave-vector magnitude $k$ by plotting the 1D energy spectra, as shown in Figure \ref{fig:1d spectra}.
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.5\textwidth]{fig/1d_spectra.png}
-\caption{One-dimensional energy spectra. The vertical line indicates the dissipation length scale.}
-\label{fig:1d spectra}
-\end{figure}
-
-The 1D spectra reveal a clear energy cascade from large to small scales, consistent with the turbulence theory of Kolmogorov [\cite{kolmogorov_local_1941}]. In particular, the energy spectrum follows the expected power-law behavior, $E_k \propto k^{-5/3}$, over the inertial range at the start of the cascade.
-
-\subsection{Richardson Number}
-
-Inspired by the work of \cite{brethouwer_scaling_2007}, we analyze the probability density function (PDF) of the Richardson number throughout the simulation, as shown in Figure \ref{fig:Ri PDF}.
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.5\textwidth]{fig/richardson_pdf.png}
-\caption{Histogram and KDE of Richardson number.}
-\label{fig:Ri PDF}
-\end{figure}
-
-The resulting PDF closely resembles the findings of \cite{brethouwer_scaling_2007}, with a significant concentration of Richardson number values at the lower end of the distribution. This suggests that the flow dynamics share similar characteristics, reinforcing the consistency of the simulated results with prior studies.
-
+\renewcommand{\arraystretch}{1.5}
+\begin{tabularx}{0.48\textwidth}{l c c c c c} 
+ \hline
+ Name & Re $\left(\times 10^3\right)$ & Fr $\left(\times 10^{-3}\right)$ & Nz & T & $k_{max} \eta$ \\
+ \hline \hline
+ ns3d-1 & 0.375 & 0.001 & $64$ & & 3.14 \\
+ ns3d-5 & 0.375 & 0.002 & $64$ & & 3.14 \\
+ ns3d-10 & 0.375 & 0.0001 & $64$ & & 3.14 \\ 
+ \hline
+\end{tabularx}
+\caption{Simulation parameters for the stratified dataset - T is the time to compute the simulation}
+\label{Table1}
+\end{table}
 
 \section{Discussion}
 
 As part of a master’s project, this study has focused on simulating stratified turbulence under controlled conditions, providing a foundation for understanding key dynamics. While the results highlight the expected anisotropy and energy cascade in stratified flows, the scope was limited by computational resources and simulation duration. 
 
-Future work could extend this study by exploring a broader range of Richardson numbers, Brunt-Väisälä frequencies, or incorporating rotational effects to simulate more realistic geophysical scenarios. Improving parallelization on HPC clusters would also enable higher-resolution simulations, allowing for more detailed analysis of small-scale dynamics and wave-turbulence interactions.
+Future work could extend this study by exploring a broader range of Brunt-Väisälä frequencies, increasing the resolution of the simulation or incorporating rotational effects to simulate more realistic geophysical scenarios. Improving parallelization on HPC clusters would also enable higher-resolution simulations, allowing for more detailed analysis of small-scale dynamics and wave-turbulence interactions.
 
 \section{Summary and conclusions}
 

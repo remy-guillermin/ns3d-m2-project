@@ -3,7 +3,7 @@
 ## Setup
 
 You can build this project using the Makefile :
-- `make` builds both [draft.pdf](draft.pdf) and [report.pdf](report.pdf).
+- `make` builds [draft.pdf](draft/draft.tex), [report.pdf](report/report.tex) and [slide.pdf](slides/slide.tex).
 - `make filename.pdf` builds either of the two pdf.
 - `make env-fluidsim-mpi` builds the conda environment used in this project using [environment.yml](environment.yml).
   

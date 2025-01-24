@@ -12,6 +12,7 @@ figures/*.png
 figures/*.mp4
 figures/*.npy
 figures/*.h5
+figures/data/*
 
 *.pyc
 *oar_launcher*

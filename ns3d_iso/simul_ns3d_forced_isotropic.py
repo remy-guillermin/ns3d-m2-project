@@ -1,5 +1,6 @@
 import argparse
 import os
+from math import pi
 
 from fluiddyn.util.mpi import printby0
 
@@ -45,6 +46,10 @@ params.oper.Lx = Lx
 params.oper.Ly = Ly = Lx / nx * ny
 params.oper.Lz = Lz = Lx / nx * nz
 
+delta_kx = 2 * pi / params.oper.Lx
+delta_ky = 2 * pi / params.oper.Ly
+delta_kz = 2 * pi / params.oper.Lz
+
 params.time_stepping.USE_T_END = True
 params.time_stepping.t_end = t_end
 
@@ -57,9 +62,20 @@ setattr(params, f"nu_{order_visco}", nu)
 
 printby0(f"nu_{order_visco} = {nu:.3e}")
 
+eta = (nu / epsilon ** (1/3))**(3/(3 * order_visco - 2))
+
+printby0(f"eta = {eta:.4}")
+
+k_max = delta_kz * nz / 2
+
+printby0(f"k_max eta = {k_max*eta:.2e}")
+
 params.init_fields.type = "noise"
 params.init_fields.noise.length = 1.0
-params.init_fields.noise.velo_max = 0.1
+params.init_fields.noise.velo_max = 1.0
+
+printby0(f'Input Reynolds Number: {params.init_fields.noise.length * params.init_fields.noise.velo_max / nu}')
+
 
 params.forcing.enable = True
 params.forcing.type = "tcrandom"

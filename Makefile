@@ -19,7 +19,7 @@ cleanaux:
 	rm -f */*.aux */*.fdb_latexmk */*.fls */*.log */*.bak* */*.bbl */*.blg */*.out */*Notes.bib */*blx.bib */*.run.xml */*.toc */*.spl
 
 cleanpdf:
-	rm -f draft.pdf report.pdf draft/draft.pdf report/report.pdf
+	rm -f draft.pdf report.pdf slide.pdf draft/draft.pdf report/report.pdf slides/slide.pdf
 
 cleanenv:
 	@source $(conda_base)/etc/profile.d/conda.sh && \

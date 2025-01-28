@@ -90,9 +90,7 @@ printby0(f"k_max eta = {k_max*eta:.2e}")
 
 params.init_fields.type = "noise"
 params.init_fields.noise.length = 1.0
-params.init_fields.noise.velo_max = 1.0
-
-printby0(f'Input Reynolds Number: {params.init_fields.noise.length * params.init_fields.noise.velo_max / nu}')
+params.init_fields.noise.velo_max = 0.1
 
 params.forcing.enable = True
 params.forcing.type = "tcrandom"

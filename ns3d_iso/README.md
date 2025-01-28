@@ -63,7 +63,7 @@ python Dahu_submit_iso3D.py
 > is run multiple times instead of one time using parallelization. 
 
 
-> **Update$$
+> **Update**
 > Now the mpi parallelization works on Dahu with Miniconda, I just needed to update my miniforge3 configuration
 > 
 

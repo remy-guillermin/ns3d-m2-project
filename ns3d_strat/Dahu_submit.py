@@ -10,8 +10,8 @@ cluster.commands_setting_env = [
     ]
 
 cluster.submit_command(
-    command="python simul_ns3d_strat_isotropic.py --nx 256 --t_end 60 --N 5.0",
-    name_run="fluidsim-strat-256-5",
+    command="python simul_ns3d_strat_isotropic.py --nx 256 --t_end 40 --N 2.0",
+    name_run="fluidsim-strat-256-2",
     nb_nodes=1,
     nb_mpi_processes="auto",
     walltime="23:59:00",

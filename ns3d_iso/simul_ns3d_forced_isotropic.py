@@ -20,7 +20,7 @@ parser.add_argument(
 parser.add_argument(
     "--order",
     type=int,
-    default=4,
+    default=2,
     help="Order of the viscosity (`2` corresponds to standard viscosity)",
 )
 
@@ -37,7 +37,8 @@ params = Simul.create_default_params()
 
 params.output.sub_directory = "examples"
 
-ny = nz = nx
+ny = nx
+nz = nx / 4
 Lx = 3
 params.oper.nx = nx
 params.oper.ny = ny

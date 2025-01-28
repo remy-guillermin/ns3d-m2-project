@@ -10,7 +10,7 @@ cluster.commands_setting_env = [
     ]
 
 cluster.submit_command(
-    command="python simul_ns3d_forced_isotropic.py --nx 256 --t_end 30",
+    command="python simul_ns3d_forced_isotropic.py --nx 256 --t_end 60",
     name_run="fluidsim-iso-256",
     nb_nodes=1,
     nb_mpi_processes="auto",

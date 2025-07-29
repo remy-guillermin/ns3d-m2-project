@@ -1,0 +1,12 @@
+name: env-fluidsim-mpi-h5py-seq
+dependencies:
+  - fluidsim
+  - openmpi
+  - h5py
+  - ffmpeg=7.1.0
+  - ffmpeg-python=0.2.0
+  - fluidfft-fftw
+  - fluidfft-fftwmpi
+  - fluidfft-mpi_with_fftw
+  - ipython
+  - matplotlib

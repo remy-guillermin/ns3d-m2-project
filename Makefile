@@ -1,7 +1,7 @@
 conda_base := $(shell conda info --base)
 
 all:
-	make draft.pdf && make report.pdf && make slide.pdf
+	make cleanpdf && make draft.pdf && make report.pdf && make slide.pdf
 
 draft.pdf:
 	cd draft && latexmk -halt-on-error -f -shell-escape -pdf -quiet draft.tex && rsync draft.pdf ../draft.pdf && cd ../ && make cleanaux
@@ -16,7 +16,7 @@ env-fluidsim-mpi:
 	conda env create -f environment.yml
 
 cleanaux:
-	rm -f */*.aux */*.fdb_latexmk */*.fls */*.log */*.bak* */*.bbl */*.blg */*.out */*Notes.bib */*blx.bib */*.run.xml */*.toc */*.spl
+	rm -f */*.aux */*.fdb_latexmk */*.fls */*.log */*.bak* */*.bbl */*.blg */*.out */*Notes.bib */*blx.bib */*.run.xml */*.toc */*.spl */*.nav */*.snm
 
 cleanpdf:
 	rm -f draft.pdf report.pdf slide.pdf draft/draft.pdf report/report.pdf slides/slide.pdf

@@ -71,21 +71,15 @@ else:
     period_N = 1.0
 printby0(f"Input horizontal Froude number: {Fh:.3g}")
 
-order_visco = 2
 dx = Lx / nx
 epsilon = 1.0
-C = 1.0
-nu = (dx / C) ** ((3 * order_visco - 2) / 3) * epsilon ** (1 / 3)
-setattr(params, f"nu_{order_visco}", nu)
-
-printby0(f"nu_{order_visco} = {nu:.3e}")
-
-eta = (nu / epsilon ** (1/3))**(3/(3 * order_visco - 2))
-
-printby0(f"eta = {eta:.4}")
-
 k_max = delta_kz * nz / 2
+eta = 1.0 / k_max
+nu = eta ** (4 / 3) * epsilon ** (1 / 3)
+setattr(params, f"nu_2", nu)
 
+printby0(f"nu_2 = {nu:.3e}")
+printby0(f"eta = {eta:.4}")
 printby0(f"k_max eta = {k_max*eta:.2e}")
 
 params.init_fields.type = "noise"
@@ -104,7 +98,7 @@ params.forcing.forcing_rate = 0.5 * epsilon
 
 params.output.periods_print.print_stdout = 1e-1
 
-params.output.periods_save.phys_fields = 0.5
+params.output.periods_save.phys_fields = 10.0
 params.output.periods_save.spatial_means = 0.1
 params.output.periods_save.spectra = 0.1
 params.output.periods_save.spect_energy_budg = 0.1

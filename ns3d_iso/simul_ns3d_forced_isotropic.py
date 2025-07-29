@@ -54,21 +54,14 @@ delta_kz = 2 * pi / params.oper.Lz
 params.time_stepping.USE_T_END = True
 params.time_stepping.t_end = t_end
 
-order_visco = args.order
-dx = Lx / nx
 epsilon = 1.0
-C = 1.0
-nu = (dx / C) ** ((3 * order_visco - 2) / 3) * epsilon ** (1 / 3)
-setattr(params, f"nu_{order_visco}", nu)
-
-printby0(f"nu_{order_visco} = {nu:.3e}")
-
-eta = (nu / epsilon ** (1/3))**(3/(3 * order_visco - 2))
-
-printby0(f"eta = {eta:.4}")
-
 k_max = delta_kz * nz / 2
+eta = 0.5 / k_max
+nu = eta ** (4 / 3) * epsilon ** (1 / 3)
+setattr(params, f"nu_2", nu)
 
+printby0(f"nu_2 = {nu:.3e}")
+printby0(f"eta = {eta:.4}")
 printby0(f"k_max eta = {k_max*eta:.2e}")
 
 params.init_fields.type = "noise"

@@ -1,7 +1,6 @@
 \documentclass[final,5p,times,twocolumn,authoryear]{elsarticle}
 
 \usepackage{amssymb}
-\usepackage{lipsum}
 \usepackage{amsthm}
 \usepackage{amsmath}
 \usepackage[utf8]{inputenc}
@@ -23,7 +22,7 @@
 \end{minipage}%
 \begin{minipage}{0.4\textwidth}
 \centering
-\textbf{Simulations of stratified turbulence} \\ \textbf{and comparison with oceanic wave turbulence}
+\textbf{Simulations of stratified turbulence}
 \end{minipage}%
 \begin{minipage}{0.3\textwidth}
 \flushright
@@ -31,10 +30,10 @@
 \end{minipage}
 }
 
-\author[first]{Guillermin Remy}
+\author{Guillermin Remy\\ Supervised by Pierre Augier}
 
 \begin{abstract}
-This study investigates stratified turbulence and its interactions with internal waves using high-resolution Direct Numerical Simulations (DNS). Results reveal an energy cascade following the $k^{-5/3}$ power law, and Richardson number distributions consistent with prior studies.
+This study investigates stratified turbulence using high-resolution Direct Numerical Simulations (DNS).
 \end{abstract}
 
 \begin{keyword}
@@ -48,9 +47,9 @@ Numerical Simulation \sep Fluids Dynamic \sep Turbulence
 \section{Introduction}
 \label{introduction}
 
-In fluid mechanics, turbulence arises when the Reynolds number, $\mathrm{Re} = UL/\nu \gg 1$, where $U$ and $L$ are the characteristic velocity and length scales of the flow, and $\nu$ is the kinematic viscosity. This condition is typically met in scenarios such as high-speed flows (e.g., jet engine exhaust), large-scale flows (e.g., atmospheric or ocean currents), or in fluids with negligible viscosity, like superfluids. Turbulence is characterised by chaotic, irregular motion that significantly affects the transport of momentum, heat, and mass.
+In fluid mechanics, turbulence arises for large Reynolds number, $\mathrm{Re} = UL/\nu$, where $U$ and $L$ are the characteristic velocity and length scales of the flow, and $\nu$ is the kinematic viscosity. This condition is typically met in scenarios such as high-speed flows (e.g., jet engine exhaust), large-scale flows (e.g., atmospheric or ocean currents), or in fluids with negligible viscosity, like superfluids. Turbulence is characterised by chaotic, irregular motion that significantly affects the transport of momentum, heat, and mass.
 
-In the context of large-scale climate systems, such as the ocean and atmosphere, turbulence is even more complex due to the additional influence of Earth’s rotation and the stratification of the fluid—either by temperature (in the atmosphere) or density (in the ocean). These factors modify the basic dynamics described by the Navier-Stokes equations. Specifically, stratification leads to the formation of internal waves, which in turn interact with turbulence in intricate ways, driving the transport and mixing processes that are fundamental to climate dynamics.
+In the context of large-scale climate systems, such as the ocean and atmosphere, turbulence is even more complex due to the additional influence of Earth’s rotation and the density stratification due to temperature (in the atmosphere) or/and salinity gradients (in the ocean). These factors modify the basic dynamics described by the Navier-Stokes equations. Specifically, stratification leads to the formation of internal waves, which in turn interact with turbulence in intricate ways, driving the transport and mixing processes that are fundamental to climate dynamics.
 
 This project focuses on the effects of density stratification in large-scale flows, particularly how it induces internal wave turbulence. Understanding this phenomenon is crucial because internal waves play a key role in energy transfer within oceans and atmospheres, influencing ocean currents and atmospheric circulation patterns. By studying turbulent flows under stratified conditions, we aim to gain insights into the mechanisms governing large-scale climate dynamics and the energy cascades that drive these systems.
 
@@ -75,7 +74,7 @@ where $\rho$ is the fluid density, $\vec{u}$ is the velocity field, $p$ is the p
 
 \subsection{Dimensionless Numbers}
 
-In the study of fluid mechanics, the Froude number $\mathrm{Fr}$ is a key dimensionless quantity that represents the ratio of inertial forces (advection) to gravitational forces.
+In the study of fluid mechanics, the Froude number $\mathrm{Fh}$ is a key dimensionless quantity that represents the ratio of inertial forces (advection) to gravitational forces.
 \begin{equation*}
 	\mathrm{Fr}^2 = U^2 / gH
 \end{equation*} 
@@ -92,7 +91,7 @@ For rotating flow we can also define the Rossby number as the ratio of the inert
 \begin{equation*}
 	Ro = \frac{U}{fL}
 \end{equation*}
-Here, $f$ is the Coriolis parameter $f = 2\Omega$ in the case of a planar frame of reference, if we look at the case of the Earth, we need to take account for the latitude at which the experiment/simulation takes place.
+Here, $f$ is the Coriolis parameter $f = 2\Omega$ in the case of a planar frame of reference, if we look at the case of the Earth, we need to take account of the latitude at which the experiment/simulation takes place.
 
 \subsection{Boussinesq Approximation and Inertia-Wave Propagation}
 
@@ -118,24 +117,21 @@ This study leverages \texttt{Fluidsim} [\cite{fluiddyn}], a high-performance com
 
 \subsection{Computational Environment}
 
-The simulations are performed on three platforms: 
+The simulations will be performed on two platforms. Through the master’s program, we have access to the Zen supercomputer hosted by Mesonet. This cluster was straightforward to begin working with, as it has been used in several courses and was sufficient for running low-resolution simulations to test and validate the simulation scripts. However, we encountered difficulties in utilizing parallelization effectively on this cluster, which limited its potential for larger simulations.
 
-\begin{itemize}
-    \item \textbf{Zen (Mesonet)}: A supercomputer offering ease of use and good computational power for medium-resolution simulations (up to $(256, 256, 64)$). However, it lacks efficient parallelization capabilities for multi-node simulations.
-    \item \textbf{GRICAD Cluster (Miniforge3)}: Supports single-node simulations. This will be the primary focus due to the current issues with multi-node setups.
-    \item \textbf{GRICAD Cluster (Guix)}: Provides potential for multi-node simulations, which is essential for higher-resolution simulations, but setup and execution currently face technical challenges.
-\end{itemize}
+The second platform is the Dahu cluster, hosted by GRICAD at LEGI. This cluster offers multiple options for software installation. The first option involves using a \texttt{miniforge} environment, which is relatively simple to set up. This environment allows for single-node parallelization on the cluster, enabling simulations up to a resolution of $(256, 256, 64)$. The second option is to use \texttt{Guix}, which provides multi-node capabilities essential for performing high-resolution simulations. Unfortunately, we were unable to fully configure the multi-node setup within the \texttt{Guix} installation, limiting our ability to leverage the cluster’s full computational capacity.
 
 \subsection{Challenges Encountered}
 
-Several technical issues have impacted the simulation workflow:
+Several technical challenges impacted the simulation workflow.
 
-\begin{itemize}
-    \item \textbf{GRICAD (Guix):} Initial difficulties arose during configuration, requiring IT support to resolve. Multi-node simulations using MPI processes are not functioning, limiting the scalability needed for high-resolution simulations.
-    \item \textbf{Zen (Mesonet):} While job submission is straightforward, parallel simulations using MPI are not currently working. This restricts computational efficiency, as only sequential simulations are possible at present.
-\end{itemize}
+On the Zen cluster, we were unable to configure its parallelization capabilities, restricting us to sequential simulations. This significantly reduced computational efficiency, particularly for high-resolution cases.
 
-Addressing these challenges is essential for performing high-resolution DNS efficiently and should be a priority for future work.
+Additionally, while \texttt{Fluidsim} provides job submission commands for multi-node parallelization, misconfigurations prevented us from fully utilizing this feature, leading to inefficient simulations.
+
+Another issue arose when saving physical fields with \texttt{h5py} during parallel simulations. The resulting corrupted files were unusable, an issue now identified and expected to be resolved by using the standard \texttt{h5py} library.
+
+Addressing these challenges is crucial for enabling efficient high-resolution Direct Numerical Simulations (DNS) and should be a priority for future work. For now, we will focus on simulations using the \texttt{miniforge} installation on the GRICAD cluster, as it currently provides the most reliable and efficient computational environment.
 
 \section{Simulation Parameters}
 
@@ -143,146 +139,204 @@ Addressing these challenges is essential for performing high-resolution DNS effi
 
 Direct Numerical Simulations (DNS) require high grid resolutions capable of resolving all turbulent scales down to the Kolmogorov length scale $\eta$. This ensures the accurate representation of flow dynamics across the entire spectrum, from large-scale eddies to fine-scale dissipation. 
 
-\subsection{Reynolds Number and Kolmogorov Length Scale}
 
-The Reynolds number $Re_n$ for a viscosity of order $n$ is expressed as:
+\subsection{Reynolds Number and viscosity}
+
+The Reynolds number  $Re_n$  for a viscosity of order n is expressed as:
 \begin{equation*}
-    Re_n = \frac{U L^{n-1}}{\nu_n},
+Re_n = \frac{U L^{n-1}}{\nu_n}
 \end{equation*}
-where $\nu_n$ is the viscosity of order $n$. For $n=2$, $\nu_2$ represents the standard viscosity term from the Navier-Stokes equations. Higher-order viscosities ($n>2$) appear as additional dissipation terms of the form $\nu_n \nabla^n$, offering flexibility in controlling dissipation at smaller scales.
+where  $\nu_n$ represents the viscosity of order  n . For  $n = 2$ ,  $\nu_2$  corresponds to the standard viscosity term from the Navier-Stokes equations. For  $n > 2$ , higher-order viscosities (\textit{hyperviscosities}) appear as dissipation terms of the form  $\nu_n \nabla^n$ , providing flexibility for controlling dissipation at small scales but at the expense of losing DNS fidelity.
 
-Using the turbulent scaling $u(l) = (\varepsilon l)^{1/3}$, the Reynolds number at a given length scale $l$ becomes:
-\begin{equation*}
-    Re_n(l) = \frac{\varepsilon^{1/3} l^{n - 2/3}}{\nu_n}.
-\end{equation*}
+\subsection{Turbulent Scaling and Kolmogorov Length Scale}
 
-The Kolmogorov length scale $\eta_n$, where $Re_n(l) = 1$, is given by:
+For $n = 2$, using the turbulent scaling  $u(l) = (\varepsilon l)^{1/3}$, the Reynolds number at a length scale $l$ becomes:
 \begin{equation*}
-    \eta_n = \left(\frac{\nu_n}{\varepsilon^{1/3}}\right)^{1 / (n - 2/3)}.
+Re(l) = \frac{\varepsilon^{1/3} l^{4/3}}{\nu}
 \end{equation*}
 
-\subsection{DNS Feasibility}
-
-For DNS, the condition $k_{\text{max}} \eta > 1$ must be satisfied, where $k_{\text{max}}$ is the maximum resolved wavenumber:
+The Kolmogorov length scale $\eta$, defined as the scale where  $Re(l) = 1$, is:
 \begin{equation*}
-    k_{\text{max}} = \frac{2\pi}{L_x} \frac{n_x}{2}.
+\eta = \left(\frac{\nu}{\varepsilon^{1/3}}\right)^{3/4}
 \end{equation*}
 
-Assuming $\nu_2 = 10^{-6}$ and $\varepsilon = 1$, the Kolmogorov length scale $\eta_2$ is approximately $10^{-4.5}$. This would require a horizontal resolution of $n_x \approx 30198$ grid points, which is computationally prohibitive for this project.
+Assuming  $\nu_2 = 10^{-6}$ and $\varepsilon = 1$, the Kolmogorov length scale  $\eta_2$  is approximately  $10^{-4.5}$ . This would necessitate a horizontal resolution of  $n_x \approx 30,198$  grid points, which is computationally unfeasible for this project.
 
-To achieve DNS with feasible grid resolutions, we modify the viscosity. The required viscosity $\nu$ for a grid spacing $\Delta x = L_x / n_x$ is:
-\begin{equation*}
-    \nu = C \left(\frac{L_x}{n_x}\right)^{4/3} \varepsilon^{1/3},
-\end{equation*}
-where $C \sim 1$ is a constant. 
+We will choose $\eta$ so that we have $k_{max} \eta \sim 0.5$ which allows us to have a bigger inertial range while having almost a DNS.
 
-The maximum initial Reynolds number $Re_i$ that can be injected with a maximum velocity $u_i$ at a characteristic length $L=1.0$ is:
+We can then compute the required viscosity,
 \begin{equation*}
-    Re_i = \frac{u_i n_x^{4/3}}{C^{4/3} \varepsilon^{1/3}}.
+\nu = \eta^{4/3} \varepsilon^{1/3}
 \end{equation*}
 
-These adjustments allow us to perform DNS within the computational limits of this project while maintaining the necessary physical fidelity.
-
+In our case, this gives us $\nu = 2.296 \times 10^{-4}$. This value of viscosity ensures that turbulence is adequately resolved in our simulation, allowing us to analyze its dynamics effectively.
 
 \section{Simulation Results}
 \subsection{Isotropic Test Case}
 
-To begin, we perform simulations on a grid resolution of $(256 \times 256 \times 64)$ for a setup without stratification. For this, we use the standard 3D solver from \texttt{Fluidsim}, \texttt{fluidsim.solvers.ns3d}, which is designed for isotropic turbulence. This initial test serves to validate the basic behavior of isotropic turbulence.
+To validate the basic behavior of isotropic turbulence, we perform simulations on a grid resolution of $(256 \times 256 \times 64)$ without stratification. This serves as a reference case to ensure that the solver correctly reproduces turbulent dynamics before introducing stratification effects.
 
+For this, we use the standard 3D solver from \texttt{Fluidsim}, \texttt{fluidsim.solvers.ns3d}, which solves the incompressible Navier-Stokes equations using a pseudo-spectral method:
+\begin{equation*}
+\partial_t \textbf{v} + \textbf{v} \cdot \boldsymbol{\nabla} \textbf{v} =
+- \boldsymbol{\nabla} p  + \nu \Delta \textbf{v},
+\end{equation*}
+where $\textbf{v}$ is the velocity field, $p$ is the pressure, and $\nu$ is the kinematic viscosity.
+
+This solver allows for different forcing schemes and initial conditions. Here, we apply a random isotropic forcing within a spectral range of $(k_{\min}, k_{\max}) = (3,4)$ with a low amplitude to generate turbulence. 
+
+This simulation also serves as the $N=0.0$ case in our stratified turbulence study, providing a baseline for comparison. Additionally, it allows us to test and validate our analysis tools in \texttt{jupyter} notebooks before processing more complex simulations.
+
+\subsection{Simulation parameters}
+The simulation parameters for our simulations are summarized in Table \ref{Table1}. 
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{l c c c c c} 
+ \hline
+ Name  & $Fh$ & $n_z$ & T & $\tau$ & $k_{\text{max}} \eta$ \\
+ \hline \hline
+ ns3d-00 & $\infty$ & $64$ & 315 & 60 & 0.8\\
+ ns3d-01 & 10 & $64$ & 298 & 40 & 0.5 \\
+ ns3d-02 & 5 & $64$ & 278 & 40 & 0.5 \\
+ ns3d-05 & 2 & $64$ & 290 & 40 & 0.5 \\
+ ns3d-1 & 1 & $64$ & 286 & 40 & 0.5 \\
+ ns3d-2 & 0.5 & $64$ & 275 & 40 & 0.5 \\
+ ns3d-5 & 0.2 & $64$ & 270 & 40 & 0.5 \\
+ ns3d-10 & 0.1 & $64$ & 210 & 40 & 0.5 \\ 
+ ns3d-20 & 0.05 & $64$ & 255 & 40 & 0.5 \\ 
+ \hline
+\end{tabular}
+\caption{Simulation parameters for the stratified dataset. T is the computing time (minutes), $\tau$ is the physical simulation time.\label{Table1}}
+\end{table}
+
+\subsubsection{Physical Space Representations}
+
+At the end of the simulation, we analyze the velocity field by plotting the magnitude or individual components of the velocity. Figure \ref{fig:iso slice} shows the velocity magnitude in an arbitrary horizontal slice of the computational domain.
 \begin{figure}[h]
-	\centering
-	\includegraphics[width=0.41\textwidth]{fig/iso_spectra.png}
-	\caption{Energy spectra along each direction for the isotropic case.} 
-	\label{fig:iso spectra}
+\centering
+\includegraphics[width=0.4\textwidth]{fig/iso_slice.png}
+\caption{Velocity magnitude in a horizontal slice.}
+\label{fig:iso slice}
 \end{figure}
 
-For both this test and subsequent simulations, we analyze the energy spectra and the energy budget over time. 
+To ensure the incompressibility of the flow, we compute the divergence of the velocity field with a \texttt{numpy.gradient} and find out that other than few artefacts due to the gradient 
 
-Figure \ref{fig:iso spectra} shows the energy transfer from large to small scales. However, due to the relatively low resolution of this simulation, we do not observe a clear inertial range characterized by $E(k) \propto k^{-5/3}$. A higher resolution would likely reveal a more pronounced and extended inertial range.
+The results confirm that the flow is nearly divergence-free, as expected for an incompressible flow.
 
-The energy budget for this test case is displayed in Figure \ref{fig:iso budget}. Here, we observe that the energy distribution is identical across all three directions, confirming the isotropic nature of the turbulence.
+\subsubsection{Spectra}
+Alongside the physical fields, the solver also saves spectral data for post-processing. This includes both one-dimensional and three-dimensional spectral information as well as the spectral energy budget over time.
 
+We plot the evolution of the spectral energy budget over time in Figure \ref{fig:iso budget}. 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.5\textwidth]{fig/iso_budget.png}
+	\includegraphics[width=0.45\textwidth]{fig/iso_budget.png}
 	\caption{Energy budget along each direction for the isotropic case.} 
 	\label{fig:iso budget}
 \end{figure}
 
-Summing the contributions from all three directions gives the total energy. The simulation achieves stability after approximately 5 seconds of physical time. This observation allows us to confidently reduce the runtime for subsequent simulations, as the flow reaches a statistically steady state relatively quickly.
+The results show a uniform distribution of energy across the three spatial directions, with a slight deficit in the vertical direction which is attributed to the reduced vertical scale.
 
-\subsection{Stratified Dataset}
+\subsection{Ensemble analysis}
 
-We conducted simulations using the solver \texttt{fluidsim.solvers.ns3d.strat}, varying the Brunt-Väisälä frequency $N$ across different cases. The parameters for these simulations are summarized in Table \ref{Table1}.
+We conducted simulations using the solver \texttt{fluidsim.solvers.ns3d.strat}, varying the Brunt-Väisälä frequency $N$ across different cases.
 
-\begin{table}[h]
-\centering
-\renewcommand{\arraystretch}{1.5}
-\begin{tabularx}{0.48\textwidth}{l c c c c c c } 
- \hline
- Name & Re $\left(\times 10^3\right)$ & Fr & $n_z$ & T & $\tau$ & $k_{\text{max}} \eta$ \\
- \hline \hline
- ns3d-01 & 0.670 & 10 & $64$ & 330 & 60 & 3.14 \\
- ns3d-02 & 0.670 & 5 & $64$ & 225 & 40 & 3.14 \\
- ns3d-05 & 0.670 & 2 & $64$ & 210 & 40 & 3.14 \\
- ns3d-1 & 0.670 & 1 & $64$ & 210 & 40 & 3.14 \\
- ns3d-2 & 0.670 & 0.5 & $64$ & 210 & 40 & 3.14 \\
- ns3d-5 & 0.670 & 0.2 & $64$ & 200 & 60 & 3.14 \\
- ns3d-10 & 0.670 & 0.1 & $64$ & 260 & 60 & 3.14 \\ 
- ns3d-20 & 0.670 & 0.05 & $64$ & 215 & 40 & 3.14 \\ 
- \hline
-\end{tabularx}
-\caption{Simulation parameters for the stratified dataset. T is the computing time (minutes), $\tau$ is the physical simulation time (seconds).}
-\label{Table1}
-\end{table}
+This solver solves the Navier-Stokes equations of the velocity $\textbf{v}$ and the buoyancy $b$ under the Boussinesq approximation with a constant Brunt-Väisälä frequency
+\begin{align*}
+	\partial_t \textbf{v} + \textbf{v} \cdot \boldsymbol{\nabla} \textbf{v} & = - \boldsymbol{\nabla} p + b \textbf{e}_\textbf{z} + \nu \Delta \textbf{v} \\
+    \partial_t b  + \textbf{v} \cdot \boldsymbol{\nabla} b & = - N^2 v_z + \nu \Delta b
+\end{align*}
 
 The Brunt-Väisälä frequency $N$ in each simulation is characterized by its corresponding Froude number, defined as:
 \begin{equation*}
-    Fr = \frac{\varepsilon^{1/3} l^{4/3}}{N}.
+    Fh = \frac{U}{NL} = \frac{\varepsilon^{1/3}}{N L^{2/3}} = \frac{1}{N}
 \end{equation*}
-The Reynolds number $Re$ is determined by the forcing parameters, with $\varepsilon_{\text{forcing}} = 0.5$ and a forcing wavenumber range of $(k_{\text{min}}, k_{\text{max}}) = (3,4)$. It can be expressed as:
-\begin{equation*}
-    Re = \frac{2 \pi \varepsilon_{\text{forcing}}}{k_i \nu}.
-\end{equation*}
-Increasing the grid size would allow higher Reynolds numbers, introducing more complexity to the dataset.
 
-\subsubsection{Dissipation Ratios}
+We apply a random forcing with the same characteristics as in the non-stratified case, maintaining consistency across simulations.
 
-In stratified turbulence, horizontal shears dominate over vertical motions. To examine this, we plot the temporal evolution of the ratio between vertical and horizontal dissipation for each case (Figure \ref{fig:kzkh dissipation}). 
+\subsubsection{Spectra}
+
+When examining the spectral budget for highly stratified cases, we observe that vertical energy rapidly decreases to values lower than the horizontal energy. This highlights the impact of stratification on energy budget. Additionally, after less than five seconds, most cases reach a stable state, allowing us to compute the mean energy ratio between horizontal and vertical directions.
+
+The horizontal energy spectrum for each simulation is shown in Figure \ref{fig:multi spectrum}, along with the theoretical inertial range slope $E(k) \propto k^{-5/3}$.
+
 \begin{figure}[h]
-	\centering
-	\includegraphics[width=0.5\textwidth]{fig/kzkhdissipation.png}
-	\caption{Temporal evolution of the ratio between vertical and horizontal dissipation for each simulation.} 
-	\label{fig:kzkh dissipation}
+\centering
+\includegraphics[width=0.5\textwidth]{fig/multi_Ekh_kh.png}
+\caption{Horizontal energy spectrum for the stratified cases. The dashed line represents the inertial range slope $E(k) \propto k^{-5/3}$, while the vertical line marks the dissipation range.}
+\label{fig:multi spectrum}
 \end{figure}
 
-After an initial buildup phase lasting around 5 seconds, the dissipation ratio stabilizes. The mean dissipation ratio, computed over the stabilized phase, is plotted as a function of the Froude number in Figure \ref{fig:kzkh Froude}.
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=0.4\textwidth]{fig/kzkhFr.png}
-	\caption{Mean ratio of vertical to horizontal dissipation as a function of the Froude number. The red dashed line represents the interpolation $y(x) = -1/(35x) + 2.8$.} 
-	\label{fig:kzkh Froude}
-\end{figure}
+Despite the resolution limitations, we observe a well-defined inertial range that follows the expected $E(k) \propto k^{-5/3}$ scaling. However, with $k_{\max} \eta = 0.5$, the dissipation range is somewhat suppressed. A slightly higher value, such as $0.8$, may better capture the small-scale dissipation.
 
-The results show a strong dependency on the Froude number. For $Fr < 1$, the dissipation ratio decreases sharply, reaching a ceiling value of approximately $0.28$ for larger $Fr$. This implies that under strong stratification, vertical dissipation becomes negligible compared to horizontal dissipation
+As the Froude number decreases—i.e., as the Brunt-Väisälä frequency increases—the energy spectrum shifts downward, further illustrating the effect of stratification on turbulence dynamics.
+
 
 \section{Discussion}
 
-This study demonstrates how density stratification modifies turbulence, suppressing vertical motion while enhancing horizontal dynamics. The results confirm that stratification introduces strong anisotropy, reducing vertical dissipation and altering the energy cascade. Intermittent mixing events occur when turbulent forces overcome buoyancy, highlighting the balance between energy input and dissipation under stratified conditions. These findings align with existing theoretical predictions and provide quantitative insights into the behavior of turbulent flows under varying Froude numbers.
+This master’s project investigated stratified turbulence using simulations on HPC systems. While high-resolution simulations up to $(1024, 1024, 256)$ were not achieved due to unresolved parallelization issues, lower-resolution runs provided valuable insights.
 
-However, the study’s scope is constrained by computational limitations, such as restricted Reynolds numbers and simplified boundary conditions. These constraints limit the ability to fully capture the small-scale dynamics and long-term evolution of stratified turbulence. Future work should prioritize higher-resolution simulations, extended parameter ranges, and the inclusion of rotational effects to bridge the gap between idealized models and real-world geophysical systems.
+The results illustrate how increasing stratification suppresses vertical energy dissipation and enhances horizontal dynamics. These findings align with theoretical expectations and emphasize the anisotropic nature of stratified turbulence. Addressing the computational challenges and conducting higher-resolution simulations should be a key focus for future work to refine these observations further.
 
-\section{Summary and conclusions}
+\appendix
 
-This work investigates the impact of density stratification on turbulence, showing that stratification induces anisotropy by suppressing vertical motions while driving horizontal energy cascades. The results emphasize the role of the Froude number in governing dissipation ratios and mixing efficiency in stratified flows.
-
-Despite the simplified setup and computational constraints, this study provides a foundation for understanding the dynamics of stratified turbulence and its relevance to geophysical processes. Future efforts should focus on expanding the parameter space and improving computational methods to gain deeper insights into wave-turbulence interactions and their role in large-scale energy transfer and mixing.
-
-\qquad 
+\section{Bibliography}
 
 \bibliographystyle{elsarticle-harv} 
 \bibliography{references.bib}
 
+\section{Figures}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.45\textwidth]{fig/iso_Ekh_kh.png}
+	\caption{Horizontal energy spectrum for the non stratified case. The dashed line indicates the inertial range slope $E(k) \propto k^{-5/3}$. } 
+	\label{fig:iso horizontal spectrum}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.45\textwidth]{fig/iso_Ekz_kz.png}
+	\caption{Vertical energy spectrum for the non stratified case. The dashed line indicates the inertial range slope $E(k) \propto k^{-5/3}$. } 
+	\label{fig:iso vertical spectrum}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.45\textwidth]{fig/0.5_budget.png}
+	\caption{Energy budget along each direction for the case with $N=0.5$} 
+	\label{fig:0.5 budget}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.45\textwidth]{fig/10_budget.png}
+	\caption{Energy budget along each direction for the case with $N=10$} 
+	\label{fig:10 budget}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.45\textwidth]{fig/20_budget.png}
+	\caption{Energy budget along each direction for the case with $N=20$} 
+	\label{fig:20 budget}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.45\textwidth]{fig/corrupt_slice.png}
+	\caption{Slice of a corrupted file} 
+	\label{fig:corrupt}
+\end{figure}
+
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.45\textwidth]{fig/multi_Ekz_kz.png}
+\caption{Vertical energy spectrum for the stratified cases. The dashed line indicates the inertial range slope $E(k) \propto k^{-5/3}$. The vertical line is the dissipation range.}
+\label{fig:multi vertical spectrum}
+\end{figure}
 
 \end{document}
 

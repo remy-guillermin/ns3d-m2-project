@@ -39,3 +39,6 @@ figures/data/*
 *.path
 
 *.DS_Store
+
+*.tar.gz
+*.zip
